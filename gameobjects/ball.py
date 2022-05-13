@@ -12,10 +12,6 @@ class Ball(GameObject):
         pass
 
     def _start(self):
-        # Seta o tamanho do gameobject a partir do tamanho do Sprite
-        self.width = self.getComponent(SpriteComponent).sprite.width
-        self.height = self.getComponent(SpriteComponent).sprite.height
-
         # Ajusta os parâmetros de movimentação
         self.kinetics = self.getComponent(KineticsComponent)
         self.kinetics.disableGravity()

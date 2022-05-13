@@ -6,7 +6,7 @@ from core.game import *
 class KineticsComponent(Component):
     def __init__(self):
         super().__init__()
-        self.velocity = Vector2(0, 0)
+        self.setVelocity(Vector2(0, 0))
         self.setGravity()
         self.gravityActivated = True
 
@@ -21,11 +21,14 @@ class KineticsComponent(Component):
 
     def addForce(self, force):
         self.velocity += force
+        
+    def setVelocity(self, velocity):
+        self.velocity = velocity
 
     def _update(self):
         position = Vector2(self.gameObject.x, self.gameObject.y)
 
         if(self.gravityActivated):
-            self.velocity += self.gravityForce * Game.window.delta_time()
+            self.velocity += self.gravityForce * Game.DELTA_TIME
 
-        self.gameObject.setPosition(position + self.velocity * Game.window.delta_time())
+        self.gameObject.translate(self.velocity * Game.DELTA_TIME)

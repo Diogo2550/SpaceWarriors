@@ -1,6 +1,7 @@
 # coding= utf-8
 
 from core.components.kineticscomponent import *
+from core.components.spritecomponent import *
 from core.game import *
 from gameobjects.ball import Ball
 

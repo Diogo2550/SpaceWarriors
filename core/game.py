@@ -1,6 +1,6 @@
 # coding= utf-8
 from core.pplay.window import *
-from core.components.spritecomponent import *
+from core.components.abstracts.drawingcomponent import *
 from core.pplay.gameimage import *
 
 
@@ -10,6 +10,7 @@ class Game:
     WINDOW_TITLE = 'Pong'
     WINDOW_WIDTH = 1200
     WINDOW_HEIGHT = 600
+    DELTA_TIME = 0
 
     SPEED_MULTIPLIER = 1
 
@@ -31,9 +32,14 @@ class Game:
 
     def start(self):
         for gameObject in self.gameObjects:
+            gameObject.awake()
+
+        for gameObject in self.gameObjects:
             gameObject.start()
 
         while(True):
+            Game.DELTA_TIME = self.window.delta_time()
+
             # Inputs
 
 
@@ -48,9 +54,9 @@ class Game:
                 Game.window.set_background_color((0, 0, 0))                
 
             for gameObject in self.gameObjects:
-                spriteComponent = gameObject.getComponent(SpriteComponent)
-                if(spriteComponent != None):
-                    spriteComponent.draw()
+                drawingComponent = gameObject.getComponent(DrawingComponent)
+                if(drawingComponent != None):
+                    drawingComponent.draw()
 
             Game.window.update()
 
