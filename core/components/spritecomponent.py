@@ -1,8 +1,8 @@
 # coding= utf-8
-from core.component import *
-from core.pplay.sprite import *
+from Core.Component import *
+from Core.PPlay.sprite import *
 
-from .abstracts.drawingcomponent import *
+from .Abstracts.DrawingComponent import *
 
 # Adicionará sprites aos gameobjects
 class SpriteComponent(DrawingComponent):

@@ -16,6 +16,7 @@ class Component:
         pass
 
     def setGameObject(self, gameObject):
+        ''' Seta a instância do gameobject ao qual o componente pertence '''
         self.gameObject = gameObject
     
     def _update(self):

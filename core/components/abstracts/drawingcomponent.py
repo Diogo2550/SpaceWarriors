@@ -1,6 +1,6 @@
 # coding= utf-8
-from core.component import *
-from core.pplay.sprite import *
+from Core.Component import *
+from Core.PPlay.sprite import *
 
 # Classe base para componentes que precisam ser desenhados na tela
 class DrawingComponent(Component):

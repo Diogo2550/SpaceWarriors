@@ -1,13 +1,11 @@
 # coding= utf-8
 
-from core.components.kineticscomponent import *
-from core.components.spritecomponent import *
-from core.game import *
-from gameobjects.ball import Ball
+from Core.Components.KineticsComponent import *
+from Core.Components.SpriteComponent import *
+from Core.Game import *
+from GameObjects.Ball import Ball
 
 game = Game()
-
-gameObjects = []
 
 # Instanciação de gameobjects
 ball = Ball()

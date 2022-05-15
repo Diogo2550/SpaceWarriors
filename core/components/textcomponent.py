@@ -1,9 +1,9 @@
 # coding= utf-8
-from core.component import *
-from core.pplay.sprite import *
-from core.game import Game
+from Core.Component import *
+from Core.PPlay.sprite import *
+from Core.Game import Game
 
-from .abstracts.drawingcomponent import *
+from .Abstracts.DrawingComponent import *
 
 # Componente utilizado para a renderização de textos
 # Não será possível obter o tamanho dos textos escritos pois seria necessário o uso explícito do pygame

@@ -1,6 +1,6 @@
 # coding= utf-8
-from core.vector import *
-from core.game import *
+from Core.Vector import *
+from Core.Game import *
 
 # Possibilitará a presença de cinética dentro de um gameobject
 class KineticsComponent(Component):
@@ -29,6 +29,6 @@ class KineticsComponent(Component):
         position = Vector2(self.gameObject.x, self.gameObject.y)
 
         if(self.gravityActivated):
-            self.velocity += self.gravityForce * Game.DELTA_TIME
+            self.velocity += self.gravityForce
 
-        self.gameObject.translate(self.velocity * Game.DELTA_TIME)
+        self.gameObject.translate(self.velocity)

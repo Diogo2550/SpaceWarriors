@@ -1,6 +1,6 @@
 # coding= utf-8
-from core.vector import *
-from core.game import *
+from Core.Vector import *
+from Core.Game import *
 
 # Possibilitará a presença de cinética dentro de um gameobject
 class CollisionComponent(Component):
