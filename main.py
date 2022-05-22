@@ -4,16 +4,16 @@ from Core.Components.KineticsComponent import *
 from Core.Components.SpriteComponent import *
 from Core.Game import *
 from GameObjects.Ball import Ball
+from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
 game = Game()
 
-# Instanciação de gameobjects
-ball = Ball()
-ballSprite = SpriteComponent('assets/images/ball.png')
-ballKinetics = KineticsComponent()
-
-ball.addComponent(ballSprite)
-ball.addComponent(ballKinetics)
+ball = GameObjectBuilder\
+    .startBuild(Ball())\
+    .addComponent(KineticsComponent())\
+    .addComponent(SpriteComponent('assets/images/ball.png'))\
+    .setName('koe')\
+    .build()
 
 # Inserção dos gameobjects no jogo
 game.addGameObject(ball)
