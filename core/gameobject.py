@@ -97,3 +97,16 @@ class GameObject(GameObjectP):
 	
     def _afterUpdated(self):
         pass
+
+#-------------------------MOUSE EVENTS-------------------------------
+    def onClick(self):
+        pass
+
+    def onKeyDown(self):
+        pass
+
+    def onKeyPressed(self):
+        pass
+
+    def onKeyUp(self):
+        pass
