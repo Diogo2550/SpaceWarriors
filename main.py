@@ -12,7 +12,7 @@ ball = GameObjectBuilder\
     .startBuild(Ball())\
     .addComponent(KineticsComponent())\
     .addComponent(SpriteComponent('assets/images/ball.png'))\
-    .setName('koe')\
+    .setName('Bola1')\
     .build()
 
 # Inserção dos gameobjects no jogo
