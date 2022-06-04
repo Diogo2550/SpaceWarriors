@@ -23,7 +23,7 @@ class Game:
 
     SPEED_MULTIPLIER = 1
 
-    moveSpeedBase = 200
+    moveSpeedBase = 400
     window = None
     player = None
     debug = {
@@ -41,6 +41,15 @@ class Game:
             Game.WINDOW_WIDTH / 2,
             Game.WINDOW_HEIGHT / 2
         )
+        
+    @classmethod
+    def elementOnWindow(cls, element):
+        topLeft = Vector2(0, 0)
+        bottomRight = Vector2(Game.WINDOW_WIDTH - element.width, Game.WINDOW_HEIGHT - element.height)
+        
+        if(element.getPosition().x < topLeft.x or element.getPosition().y < topLeft.y or element.getPosition().x > bottomRight.x or element.getPosition().y > bottomRight.y):
+            return False
+        return True
 
     @classmethod
     def getKeyboard(cls):

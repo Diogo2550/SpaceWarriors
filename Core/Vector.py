@@ -9,7 +9,9 @@ class Vector2:
 
     def normalize(self):
         ''' Retorna uma nova instancia do vetor dado de forma unitária '''
-        return 1/(self.x**2 + self.y**2)**(1/2)
+        if(self.x == 0 and self.y == 0):
+            return Vector2.zero()
+        return Vector2(self.x, self.y) * (1/((self.x**2 + self.y**2)**(1/2)))
 
 #------------------------GETTERS PRIVADOS-------------------------------
     def zero():
