@@ -1,22 +1,51 @@
 # coding= utf-8
 
-from Core.Components.KineticsComponent import *
-from Core.Components.SpriteComponent import *
 from Core.Game import *
-from GameObjects.Ball import Ball
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
-game = Game()
+from GameObjects.Player import Player
+from GameObjects.Enemy import Enemy
+from GameObjects.Asteroid import Asteroid
 
-ball = GameObjectBuilder\
-    .startBuild(Ball())\
-    .addComponent(KineticsComponent())\
-    .addComponent(SpriteComponent('assets/images/ball.png'))\
-    .setName('Bola1')\
+from Core.Scene.Scene import Scene
+
+game = Game()
+game.setBackground('assets/images/backgrounds/blue_resized.jpg')
+
+# Instanciação de gameobjects
+player = GameObjectBuilder\
+    .startBuild(Player())\
+    .setName('Player1')\
+    .setPosition(Vector2(
+        Game.WINDOW_WIDTH / 2 - GameObjectBuilder.instance.width / 2,
+        Game.WINDOW_HEIGHT - GameObjectBuilder.instance.height
+    ))\
     .build()
 
-# Inserção dos gameobjects no jogo
-game.addGameObject(ball)
+enemy1 = GameObjectBuilder.startBuild(Enemy())\
+    .setName('Enemy1')\
+    .setPosition(Vector2(20, 30))\
+    .build()
+
+enemy2 = GameObjectBuilder.startBuild(Enemy())\
+    .setName('Enemy2')\
+    .setPosition(Vector2(Game.WINDOW_WIDTH - 120, 60))\
+    .build()
+
+asteroid1 = GameObjectBuilder.startBuild(Asteroid())\
+    .setName('Asteroid1')\
+    .setPosition(Game.getWindowCenter())\
+    .build()
+
+gameScene = Scene('gameplay')
+gameScene.addGameObject(player)
+gameScene.addGameObject(enemy1)
+gameScene.addGameObject(enemy2)
+gameScene.addGameObject(asteroid1)
+
 
 # Iniciação do game loop
+game.setPlayer(player)
+
+game.developmentMode()
 game.start()

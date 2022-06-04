@@ -8,4 +8,7 @@ class DrawingComponent(Component):
         super().__init__()
 
     def draw(self):
-        raise NotImplementedError(f'O método draw() da classe {self.__class__} deve ser implementado');
+        raise NotImplementedError(f'O método draw() da classe {self.__class__} deve ser implementado')
+
+    def rotate(self):
+        raise NotImplementedError(f'O método rotate() da classe {self.__class__} deve ser implementado')

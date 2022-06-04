@@ -2,6 +2,8 @@
 
 class GameObjectBuilder():
 
+    instance = None
+
     @classmethod
     def startBuild(cls, gameObject):
         cls.instance = gameObject
