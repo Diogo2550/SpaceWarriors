@@ -20,6 +20,8 @@ class GameObject(GameObjectP):
 
         self.__awaked = False
         self.__started = False
+        
+        self.__events = { }
 
     def setName(self, name):
         self.transform.setName(name)
@@ -68,13 +70,14 @@ class GameObject(GameObjectP):
             self._awake()
 
     def start(self):
-        for component in self.components:
-            component.start()
         for child in self.transform.children:
-            if(child != None and not child.started()):
-	            child.start()
-        self._start()
-        self.__started = True
+            child.start()
+            
+        if(not self.__started):
+            for component in self.components:
+                component.start()
+            self._start()
+            self.__started = True
 
     def update(self):
         if(self.enabled):
@@ -192,6 +195,11 @@ class GameObject(GameObjectP):
     def onKeyUp(self):
         pass
     
+    def addEventListener(self, key, func):
+        if(not key in self.__events):
+            self.__events[key] = []
+        self.__events[key].append(func)
+        
 #-------------------------EVENTS-------------------------------
     def onCollided(self, gameObject):
         pass

@@ -87,8 +87,12 @@ class Scene:
             self.__activated = False
 
 # ---------------------- EVENTS ---------------------------
+    def onActiveScene(self):
+        pass
+    
     def __onSceneChangeHandler(self, fromScene, toScene):
         if(toScene.getSceneName() == self.__sceneName):
             self.activeScene()
+            self.onActiveScene()
         elif(fromScene and fromScene.getSceneName() == self.__sceneName):
             self.__disableScene()

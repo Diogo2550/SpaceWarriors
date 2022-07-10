@@ -1,17 +1,19 @@
 # coding= utf-8
 from Core.Game import *
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
+from Core.Scene.Scene import Scene
+from Core.GameStateManager import GameStateManager
 
 from GameObjects.Player import Player
 from GameObjects.Enemy import Enemy
 from GameObjects.Asteroid import Asteroid
 
-from Core.Scene.Scene import Scene
 from Scenes.Menu import build as bsMenu
 from Scenes.Gameplay import build as bsGameplay
 
 game = Game()
 Game.setBackground('assets/images/backgrounds/blue_resized.jpg')
+game_state_manager = GameStateManager()
 
 # Instanciação de gameobjects
 player = GameObjectBuilder\
@@ -23,11 +25,7 @@ player = GameObjectBuilder\
     ))\
     .build()
     
-menu = bsMenu('menu')
+menu = bsMenu('main_menu')
 gameplay = bsGameplay('gameplay')
 
-# Iniciação do game loop
-game.setPlayer(player)
-
-game.developmentMode()
 game.start()

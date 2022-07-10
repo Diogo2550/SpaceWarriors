@@ -1,43 +1,21 @@
-# Plunity
+# Space Warriors
 
-Projeto particular criado para permitir uma criação mais componentizada de jogos utilizando a framework PPlay ([site](http://www2.ic.uff.br/pplay/)) criada pela UFF.
-
-O seu nome é uma trocadilho com a *Game Engine Unity* pois a criação do Plunity será inspirado pela mesma.
+Jogo feito em Python utilizando parcialmente a framework PyGame para a matéria de Laboratório de Programação de Jogos do Instituto Federal Fluminse (UFF). O readme a seguir será utilizado para descrever quais funcionalidades e o fluxo previsto pelos integrantes no início do período e o que foi, de fato, implementado ou não.
 
 ---
-## Como instalar
-Para instalar basta clonar este repositório e rodar o comando 
+## Fluxo proposto
 
-> python main.py
-
-na pasta do projeto para executar o app padrão.
-
----
-## Como utilizar
-Ainda não há uma maneira correta de como se deverá ser utilizado pois o *framework* ainda está engatinhando e seus *scripts core* não foram finalizados. A ideia final, porém, é que, assim como a *Unity*, seu game tenha centenas de *gameobjects* e cada *gameobject* tenha seu comportamento encapsulado dentro de si e possua o auxilio de componentes pré prontos para implementação de ações padrões, como gravidade e colisão.
-
----
-## Classes padrões
-
-### core.GameObject
-Classe que deverá ser herdada por TODOS os *gameobjects* presentes em cena. Ela proporcionará o uso de componentes padrões da *framework* assim como proporcionará métodos padrões que poderão ser editados para a customização do comportamento de seu objeto.
-
-No momento, alguns métodos já estão disponíveis para uso:
-
-**def _start(self):**
-Método chamado na inicialização do jogo. Atributos e parâmetros inicias, como a posição inicial do objeto em cena, devem ser adicionados aqui.
-
-**def _update(self):**
-Método executado antes do fim de cada frame do jogo, utilizado para atualizar o comportamento de um objeto em cena.
-
-**def _afterUpdated(self):**
-Método chamado após a execução do *_update*, ainda não possui muita ultilidade.
-
-**def setPosition(self, position):**
-Método que recebe um Vector2 e define a posição do objeto em cena.
-
-**def addComponent(self, componentType):**
-Um dos principais métodos da classe GameObject. Permite a adição de componentes que alteração o comportamento *ingame* de um determinado objeto. Componentes são scripts que herdam da classe core.Component.
-
-**def getComponent(self, componentType):**
-Permite obter um determinado tipo de componente que está presente no *gameobject*. Muito útil para modificar o comportamento de uma componente e tornar seu jogo mais customizado.
+- Abre o jogo no menu principal. Menu tem: ✅
+  - Botão para iniciar ✅
+  - Botão para continuar 
+  - Botão para ver as opções ❌
+  - Botão para finalizar o jogo ✅
+- Ao clicar em "iniciar" o jogador para uma tela de seleção de personagem ❌
+- Ao selecionar sua personagem o jogador irá para a primeira fase com uma seção tutorial ❌
+- Dá início à primeira fase após o tutorial e o cronômetro da fase começa a rodar 
+- Começam a spawnar monstros e obstáculos 
+- Destruir inimigos geram pontos 
+- Tomar dano diminui a vida 
+- É possível encontrar upgrades temporários ao derrotar um inimigo 
+- Termina uma fase e o jogo é salvo 
+- Caso o jogador feche o jogo e volte deverá voltar da fase que salvou 

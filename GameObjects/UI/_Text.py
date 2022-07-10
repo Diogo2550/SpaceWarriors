@@ -23,7 +23,7 @@ class UIText(GameObject):
         if(self.transform.parent):
             self.setLocalPosition(
             	self.transform.parent.gameObject.getObjectCenter() -
-            	Vector2(len(self.text_string) * 5, 14)
+            	Vector2(len(self.text_string) * 5, 12)
 			)
         
     def setText(self, text):        

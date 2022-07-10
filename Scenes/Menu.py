@@ -9,6 +9,32 @@ from GameObjects.UI._Button import UIButton
 from GameObjects.UI._Text import UIText
 
 def build(name):
+    scene = createScene(name)
+    addChangeEvent(scene)
+    return scene
+
+def startGame():
+    from Core.Scene.SceneManager import SceneManager
+    
+    SceneManager.changeScene('gameplay')
+
+def continueGame():
+    print('Funcionalidade não implementada!')
+
+def closeGame():
+    Game.window.close()
+
+def settings():
+    print('Funcionalidade não implementada!')
+
+def onActiveScene():
+    from Core.GameStateManager import GameStateManager
+    GameStateManager.instance.changeGameState(GameStateManager.MAIN_MENU)
+
+def addChangeEvent(scene):
+    scene.onActiveScene = onActiveScene
+
+def createScene(name):
     scene = Scene(name)
     
     # Start button
@@ -78,15 +104,3 @@ def build(name):
         .addGameObject(close_button)\
         .addGameObject(game_title)
     return scene
-
-def startGame():
-    print('apertou')
-
-def continueGame():
-    pass
-
-def closeGame():
-    Game.window.close()
-
-def settings():
-    pass
