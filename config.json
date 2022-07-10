@@ -6,5 +6,13 @@
 	"SPEED_BASE": 400,
 	"SCORE_MULTIPLIER_BASE": 100,
 
-	"DEVELOPMENT_MODE": false
+	"DEVELOPMENT_MODE": false,
+
+	"levels": {
+		"01": {
+			"time": 60,
+			"pool_size": 6,
+			"respawn_delay_base": 3
+		}
+	}
 }

@@ -26,4 +26,5 @@ class GameObjectBuilder():
 
     @classmethod
     def build(cls):
+        cls.instance.awake()
         return cls.instance

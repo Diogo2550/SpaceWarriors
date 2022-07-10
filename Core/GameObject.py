@@ -19,6 +19,7 @@ class GameObject(GameObjectP):
         self.enabled = True
 
         self.__awaked = False
+        self.__started = False
 
     def setName(self, name):
         self.transform.setName(name)
@@ -59,13 +60,21 @@ class GameObject(GameObjectP):
 #------------------------LIFECICLE METHODS OF GAMEOBJECTS-------------------------------
     def awake(self):
         if(not self.__awaked):
-            self._awake()
+            # Seta a posição inicial igual a posição do pai
+            if(self.transform.parent):
+                self.transform.setPosition(self.transform.parent.getPosition())
+                
             self.__awaked = True
+            self._awake()
 
     def start(self):
         for component in self.components:
             component.start()
+        for child in self.transform.children:
+            if(child != None and not child.started()):
+	            child.start()
         self._start()
+        self.__started = True
 
     def update(self):
         if(self.enabled):
@@ -151,6 +160,12 @@ class GameObject(GameObjectP):
         no início do jogo pois o awake de todos os gameobjects devem ser executados antes do start'''
         self.awake()
         self.start()
+    
+    def awaked(self):
+        return self.__awaked
+    
+    def started(self):
+        return self.__started
     
     def _awake(self):
         pass

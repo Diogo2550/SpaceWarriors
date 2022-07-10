@@ -21,9 +21,11 @@ class TransformComponent(Component):
     def addChild(self, child):
         child.setParent(self)
         self.children.append(child)
-
-        child.awake()
-        child.start()
+        
+        if(self.gameObject.awaked()):
+            child.awake()
+        if(self.gameObject.started()):
+            child.start()
 
     def removeChild(self, child):
         self.children.remove(child)

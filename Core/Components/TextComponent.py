@@ -28,12 +28,16 @@ class TextComponent(DrawingComponent):
         
     def setText(self, text):
         self.text = text
+        return self
         
     def setFontSize(self, fontSize):
         self.font_size = fontSize
+        return self
         
     def setFontFamily(self, fontFamily):
         self.font_family = fontFamily
+        return self
         
     def setFontColor(self, color):
         self.font_color = color
+        return self

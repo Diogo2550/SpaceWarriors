@@ -21,6 +21,7 @@ class Scene:
     def addGameObject(self, gameObject: GameObject):
         ''' Adiciona uma gameobject à cena.'''
         self.__gameObjects.append(gameObject)
+        return self
     
     def addGameObjectToScene(self, gameObject: GameObject, forceInit = True):
         ''' Adiciona uma gameobject à cena em execução '''
