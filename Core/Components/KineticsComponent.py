@@ -1,6 +1,7 @@
 # coding= utf-8
 from Core.Vector import *
 from Core.Game import *
+from Core.Component import Component
 
 # Possibilitará a presença de cinética dentro de um gameobject
 class KineticsComponent(Component):

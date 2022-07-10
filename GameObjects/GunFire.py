@@ -19,7 +19,7 @@ class GunFire(GameObject):
         self.setPosition(self.getPosition() - Vector2(self.width / 2, 0))
         self.kinetics = self.getComponent(KineticsComponent)
         self.kinetics.disableGravity()
-        self.moveSpeedBase = Game.moveSpeedBase * 2 * Game.GAME_DIFFICULTY
+        self.moveSpeedBase = Game.SPEED_BASE * 2 * Game.GAME_DIFFICULTY
 
         self.kinetics.setVelocity(Vector2(0, -self.moveSpeedBase))
 

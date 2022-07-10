@@ -43,6 +43,12 @@ gameScene.addGameObject(enemy1)
 gameScene.addGameObject(enemy2)
 gameScene.addGameObject(asteroid1)
 
+gameScene = Scene('gameplay2')
+gameScene.addGameObject(player)
+gameScene.addGameObject(enemy1)
+gameScene.addGameObject(enemy2)
+gameScene.addGameObject(asteroid1)
+
 
 # Iniciação do game loop
 game.setPlayer(player)

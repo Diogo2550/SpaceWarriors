@@ -1,7 +1,7 @@
 # coding= utf-8
-from Core.PPlay.window import *
-from Core.Components.Abstracts.DrawingComponent import *
-from Core.PPlay.gameimage import *
+from Core.PPlay.window import Window
+from Core.Components.Abstracts.DrawingComponent import DrawingComponent
+from Core.PPlay.gameimage import GameImage
 from Core.Vector import Vector2
 
 from Core.Scene.SceneManager import SceneManager

@@ -5,7 +5,6 @@ from .Vector import Vector2
 from .Components.TransformComponent import TransformComponent
 from .Components.Abstracts.DrawingComponent import DrawingComponent
 from .Components.CollisionComponent import CollisionComponent
-from .Scene.SceneManager import SceneManager
 
 # Classe customizada para manipula��o de gameobjects
 class GameObject(GameObjectP):
@@ -28,10 +27,13 @@ class GameObject(GameObjectP):
         return self.transform.name
 
     def destroy(self):
+        from .Scene.SceneManager import SceneManager
+        
         if(self.transform.parent):
             self.transform.parent.removeChild(self)
         else:
             SceneManager.getCurrentScene().removeGameObject(self)
+            
         self.disable()
 
     def setParent(self, parent):
@@ -144,6 +146,12 @@ class GameObject(GameObjectP):
 		)
 
 #------------------------LIFECICLE METHODS OF INSTANCES-------------------------------        
+    def forceInit(self):
+        ''' Usado para iniciar um gameobject que acabou de ser instanciado. Não deve ser utilizado
+        no início do jogo pois o awake de todos os gameobjects devem ser executados antes do start'''
+        self.awake()
+        self.start()
+    
     def _awake(self):
         pass
 
@@ -172,3 +180,7 @@ class GameObject(GameObjectP):
 #-------------------------EVENTS-------------------------------
     def onCollided(self, gameObject):
         pass
+    
+    def copy(self):
+        import copy
+        return copy.copy(self)

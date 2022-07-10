@@ -2,8 +2,10 @@
 from Core.Component import *
 from Core.PPlay.sprite import *
 from Core.Game import Game
+from Core.Component import Component
 
 from .Abstracts.DrawingComponent import *
+from copy import deepcopy
 
 # Adicionará sprites aos gameobjects
 class SpriteComponent(DrawingComponent):

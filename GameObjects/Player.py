@@ -9,7 +9,7 @@ from Core.Components.SpriteComponent import SpriteComponent
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
 from GameObjects.GunFire import GunFire
-
+from Core.Components.ClickableComponent import ClickableComponent
 
 class Player(GameObject):
     ''' Classe de GameObject que será controlada pelo jogador '''
@@ -21,11 +21,14 @@ class Player(GameObject):
         self.__lastFire = 0
         self.fireReload = 0
 
-    def _awake(self):        
+    def _awake(self):
         self.kinetics = self.getComponent(KineticsComponent)
         self.sprite = self.getComponent(SpriteComponent)
+        
+        Game.setPlayer(self)
 
     def _start(self):
+        self.addComponent(ClickableComponent())
         self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
         
@@ -69,3 +72,9 @@ class Player(GameObject):
                 .build()
 
         self.addChild(fire)
+        
+    def onClick(self):
+        from Core.Scene.SceneManager import SceneManager
+        
+        current = SceneManager.getCurrentScene().getSceneName()
+        SceneManager.changeScene('gameplay2' if current == 'gameplay' else 'gameplay')
