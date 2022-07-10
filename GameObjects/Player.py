@@ -50,8 +50,8 @@ class Player(GameObject):
         # Fim movimento
         
         # Tiro
-       
         self.__lastFire -= Game.DELTA_TIME 
+        
         if(keyboard.key_pressed('SPACE') and self.__lastFire < 0):
             self.fire()
         # Fim tiro
