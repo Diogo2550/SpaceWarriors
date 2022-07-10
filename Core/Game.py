@@ -17,11 +17,8 @@ class Game:
     WINDOW_HEIGHT = 700
     DELTA_TIME = 0
 
-    SPEED_MULTIPLIER = 1
     GAME_DIFFICULTY = 1
     GAME_MODE = 2
-
-    SPEED_MULTIPLIER = 1
 
     moveSpeedBase = 400
     window = None
@@ -29,6 +26,7 @@ class Game:
     debug = {
 		'scene': None
 	}
+    score = 0
 
     def __init__(self):
         self.__bootstrap()
@@ -68,8 +66,21 @@ class Game:
     @classmethod
     def developmentMode(cls):
         cls.DEVELOPMENT_MODE = True
+    
+    @classmethod
+    def gameOver(cls):
+        from .FileScoreManager import gravaPontuacao
+        
+        SceneManager.changeScene('main_menu')
+
+        playerName = input("Digite o seu nome: ")        
+        gravaPontuacao((playerName, Game.score))
+        
+        print('Jogo salvo com sucesso!')
+        cls.window.close()
 
 # ------------------------------- ADIÇÃO DE ELEMENTOS -------------------------------------
+    @classmethod
     def setBackground(self, backgroundPath):
         ''' Adiciona um background para o Game '''
         self.background = GameImage(backgroundPath)
@@ -83,7 +94,7 @@ class Game:
     def __bootstrap(self):
         window = Window(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT)
         window.set_title(Game.WINDOW_TITLE)
-
+        
         Game.window = window
 
     def start(self):
