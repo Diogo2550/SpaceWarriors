@@ -26,7 +26,7 @@ class Player(GameObject):
         self.sprite = self.getComponent(SpriteComponent)
 
     def _start(self):
-        self.move_speed = Game.moveSpeedBase
+        self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
         
         self.fireReload = .5 / Game.GAME_DIFFICULTY
@@ -46,7 +46,7 @@ class Player(GameObject):
         elif(keyboard.key_pressed('D') and self.getPosition().x < Game.WINDOW_WIDTH - self.width):
             velocity.x = 1
         
-        self.kinetics.setVelocity((velocity.normalize()) * Game.moveSpeedBase)
+        self.kinetics.setVelocity((velocity.normalize()) * Game.SPEED_BASE)
         # Fim movimento
         
         # Tiro
@@ -58,7 +58,7 @@ class Player(GameObject):
         
     def _afterUpdated(self):
         if(not Game.elementOnWindow(self)):
-            self.translate(self.kinetics.velocity.normalize() * Game.moveSpeedBase)
+            self.translate(self.kinetics.velocity.normalize() * Game.SPEED_BASE)
             self.kinetics.setVelocity(Vector2.zero())
             
     def fire(self):
