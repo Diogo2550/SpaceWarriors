@@ -27,10 +27,13 @@ class GameObject(GameObjectP):
         return self.transform.name
 
     def destroy(self):
+        from .Scene.SceneManager import SceneManager
+        
         if(self.transform.parent):
             self.transform.parent.removeChild(self)
         else:
-            print('objeto principal destruido')
+            SceneManager.getCurrentScene().removeGameObject(self)
+            
         self.disable()
 
     def setParent(self, parent):
@@ -135,14 +138,20 @@ class GameObject(GameObjectP):
         self.width = witdh
         self.height = height
 
-    def getCenterPoint(self):
-        ''' Obtém o ponto centro do objeto '''
+    def getObjectCenter(self):
+        ''' Obtém o ponto central do objeto '''
         return Vector2(
 			self.width / 2,
 			self.height / 2
 		)
 
 #------------------------LIFECICLE METHODS OF INSTANCES-------------------------------        
+    def forceInit(self):
+        ''' Usado para iniciar um gameobject que acabou de ser instanciado. Não deve ser utilizado
+        no início do jogo pois o awake de todos os gameobjects devem ser executados antes do start'''
+        self.awake()
+        self.start()
+    
     def _awake(self):
         pass
 
@@ -169,5 +178,9 @@ class GameObject(GameObjectP):
         pass
     
 #-------------------------EVENTS-------------------------------
-    def onCollided(self, gemeObject):
+    def onCollided(self, gameObject):
         pass
+    
+    def copy(self):
+        import copy
+        return copy.copy(self)

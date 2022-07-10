@@ -1,4 +1,5 @@
 # coding=utf-8
+from Core.GameObject import GameObject
 
 class SceneManager:
 
@@ -11,14 +12,20 @@ class SceneManager:
         cls.__scenes[scene.getSceneName()] = scene
 
     @classmethod
-    def getSceneByIndex(self, index):
+    def getSceneByIndex(self, index: int):
         sceneName = list(self.__scenes.keys())[index]
         return self.__scenes[sceneName]
 
     @classmethod
-    def changeScene(cls, sceneName):
-        cls.__currentScene = cls.__scenes[sceneName]
-        cls.__currentScene.activeScene()
+    def changeScene(cls, sceneName: str):
+        newScene = cls.__scenes[sceneName]
+        
+        cls.sceneChangeHandler(cls.getCurrentScene(), newScene)
+        cls.__currentScene = newScene
+        
+    @classmethod
+    def addGameObjectToCurrentScene(cls, gameObject: GameObject):
+        cls.getCurrentScene().addGameObjectToScene(gameObject)
 
     @classmethod
     def getCurrentScene(cls):
@@ -29,6 +36,6 @@ class SceneManager:
         cls.__onSceneChangeEvent.append(function)
 
     @classmethod
-    def sceneChangeHandler(cls):
+    def sceneChangeHandler(cls, fromScene, toScene):
         for event in cls.__onSceneChangeEvent:
-            event(cls.getCurrentScene())
+            event(fromScene, toScene)

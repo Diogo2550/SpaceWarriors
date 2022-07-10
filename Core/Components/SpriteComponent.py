@@ -2,14 +2,19 @@
 from Core.Component import *
 from Core.PPlay.sprite import *
 from Core.Game import Game
+from Core.Component import Component
 
 from .Abstracts.DrawingComponent import *
+from copy import deepcopy
 
 # Adicionará sprites aos gameobjects
 class SpriteComponent(DrawingComponent):
     def __init__(self, spritePath):
         super().__init__()
-        self.sprite = pygame.image.load(spritePath).convert_alpha()
+        self.changeSprite(spritePath)
+    
+    def changeSprite(self, spritePath):
+        self.sprite = pygame.image.load(spritePath).convert_alpha()        
     
     def _update(self):
         pass

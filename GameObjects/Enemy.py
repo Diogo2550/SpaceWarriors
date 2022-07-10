@@ -19,7 +19,7 @@ class Enemy(GameObject):
         self.sprite = self.getComponent(SpriteComponent)
 
     def _start(self):
-        self.move_speed = Game.moveSpeedBase
+        self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
 
         self.__faceToPlayer()

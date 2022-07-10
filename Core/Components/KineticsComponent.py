@@ -1,11 +1,15 @@
 # coding= utf-8
 from Core.Vector import *
 from Core.Game import *
+from Core.Component import Component
 
 # Possibilitará a presença de cinética dentro de um gameobject
 class KineticsComponent(Component):
     def __init__(self):
         super().__init__()
+        self.velocity = Vector2(0, 0)
+        self.__lastVelocity = self.velocity
+
         self.setVelocity(Vector2(0, 0))
         self.setGravity()
         self.gravityActivated = True
@@ -23,7 +27,11 @@ class KineticsComponent(Component):
         self.velocity += force
         
     def setVelocity(self, velocity):
+        self.__lastVelocity = self.velocity
         self.velocity = velocity
+    
+    def undoMoviment(self):
+        self.gameObject.translate(self.__lastVelocity * -1)
 
     def _update(self):
         position = Vector2(self.gameObject.x, self.gameObject.y)

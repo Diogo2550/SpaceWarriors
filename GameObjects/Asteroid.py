@@ -17,7 +17,7 @@ class Asteroid(GameObject):
         self.sprite = self.getComponent(SpriteComponent)
 
     def _start(self):
-        self.move_speed = Game.moveSpeedBase
+        self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
 
     def _update(self):

@@ -1,6 +1,7 @@
 # coding= utf-8
 from Core.Vector import *
 from Core.Game import *
+from Core.Component import Component
 
 # Possibilitará a presença de cinética dentro de um gameobject
 class CollisionComponent(Component):
@@ -19,8 +20,13 @@ class CollisionComponent(Component):
         self.collidedList = []
         
         for obj in self.objects:
-            if(self.gameObject.collided(obj)):
+            if(obj.enabled and self.gameObject.collided(obj)):
                 self.collidedList.append(obj)
+                self.onCollided(obj)
                 
     def isColliding(self):
         return len(self.collidedList) > 0
+ 
+    def onCollided(self, gameObject):
+        gameObject.onCollided(self.gameObject)
+        self.gameObject.onCollided(gameObject)

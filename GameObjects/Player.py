@@ -9,7 +9,7 @@ from Core.Components.SpriteComponent import SpriteComponent
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
 from GameObjects.GunFire import GunFire
-
+from Core.Components.ClickableComponent import ClickableComponent
 
 class Player(GameObject):
     ''' Classe de GameObject que será controlada pelo jogador '''
@@ -21,12 +21,15 @@ class Player(GameObject):
         self.__lastFire = 0
         self.fireReload = 0
 
-    def _awake(self):        
+    def _awake(self):
         self.kinetics = self.getComponent(KineticsComponent)
         self.sprite = self.getComponent(SpriteComponent)
+        
+        Game.setPlayer(self)
 
     def _start(self):
-        self.move_speed = Game.moveSpeedBase
+        self.addComponent(ClickableComponent())
+        self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
         
         self.fireReload = .5 / Game.GAME_DIFFICULTY
@@ -46,7 +49,7 @@ class Player(GameObject):
         elif(keyboard.key_pressed('D') and self.getPosition().x < Game.WINDOW_WIDTH - self.width):
             velocity.x = 1
         
-        self.kinetics.setVelocity((velocity.normalize()) * Game.moveSpeedBase)
+        self.kinetics.setVelocity((velocity.normalize()) * Game.SPEED_BASE)
         # Fim movimento
         
         # Tiro
@@ -58,7 +61,7 @@ class Player(GameObject):
         
     def _afterUpdated(self):
         if(not Game.elementOnWindow(self)):
-            self.translate(self.kinetics.velocity.normalize() * Game.moveSpeedBase)
+            self.translate(self.kinetics.velocity.normalize() * Game.SPEED_BASE)
             self.kinetics.setVelocity(Vector2.zero())
             
     def fire(self):
@@ -69,3 +72,9 @@ class Player(GameObject):
                 .build()
 
         self.addChild(fire)
+        
+    def onClick(self):
+        from Core.Scene.SceneManager import SceneManager
+        
+        current = SceneManager.getCurrentScene().getSceneName()
+        SceneManager.changeScene('gameplay2' if current == 'gameplay' else 'gameplay')

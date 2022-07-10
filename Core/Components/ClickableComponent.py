@@ -1,6 +1,7 @@
 # coding= utf-8
 from Core.Vector import *
 from Core.Game import *
+from Core.Component import Component
 
 class ClickableComponent(Component):
     ''' Componente que injeta os eventos de click do mouse no GameObject. 

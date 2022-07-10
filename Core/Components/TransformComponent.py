@@ -1,7 +1,6 @@
 # coding= utf-8
-from Core.Vector import *
-from Core.Game import *
-
+from Core.Vector import Vector2
+from Core.Component import Component
 
 class TransformComponent(Component):
     ''' Componente que representa uma coordenada no espaço e um container de objetos '''
@@ -11,6 +10,7 @@ class TransformComponent(Component):
         self.parent = None
         self.children = []
         self.rotateAngle = 0
+        self.name = ''
 
         self.onRotateEvent = []
 
@@ -57,6 +57,7 @@ class TransformComponent(Component):
         
     def translate(self, translate):
         ''' Move o objeto, a partir da posição atual, o vetor translate dado '''
+        from Core.Game import Game
         self.position += translate * Game.DELTA_TIME
 
     def onRotate(self, function):
