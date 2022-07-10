@@ -4,6 +4,7 @@ from .Component import Component
 from .Vector import Vector2
 from .Components.TransformComponent import TransformComponent
 from .Components.Abstracts.DrawingComponent import DrawingComponent
+from .Components.CollisionComponent import CollisionComponent
 
 # Classe customizada para manipula��o de gameobjects
 class GameObject(GameObjectP):
@@ -30,6 +31,7 @@ class GameObject(GameObjectP):
             self.transform.parent.removeChild(self)
         else:
             print('objeto principal destruido')
+        self.disable()
 
     def setParent(self, parent):
         self.transform.parent = parent
@@ -63,12 +65,18 @@ class GameObject(GameObjectP):
         self._start()
 
     def update(self):
-        for component in self.components:
-            if(self.enabled):
-                component.update()
-
+        if(self.enabled):
+            for component in self.components:
+                if(isinstance(component, CollisionComponent) and self.transform.parent):
+                    parentCollision = self.transform.parent.gameObject.getComponent(CollisionComponent)
+                    if(parentCollision and parentCollision.isColliding()):
+                        component.update()
+                else:
+                    component.update()
+                
         for child in self.transform.children:
-            child.update()
+            if(child != None):
+	            child.update()
 
         self._update()
         self._afterUpdated()
@@ -93,6 +101,12 @@ class GameObject(GameObjectP):
 
             for child in self.transform.children:
                 child.draw()
+                
+    def disable(self):
+        self.enabled = False
+        
+    def enable(self):
+        self.enabled = True
 
 
 #------------------------POSITION METHODS-------------------------------
@@ -152,4 +166,8 @@ class GameObject(GameObjectP):
         pass
 
     def onKeyUp(self):
+        pass
+    
+#-------------------------EVENTS-------------------------------
+    def onCollided(self, gemeObject):
         pass
