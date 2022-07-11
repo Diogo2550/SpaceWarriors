@@ -199,7 +199,12 @@ class GameObject(GameObjectP):
         if(not key in self.__events):
             self.__events[key] = []
         self.__events[key].append(func)
-        
+    
+    def _dispatchEvent(self, eventName, arg):
+        if eventName in self.__events:
+            for event in self.__events[eventName]:
+                event(arg)
+                
 #-------------------------EVENTS-------------------------------
     def onCollided(self, gameObject):
         pass

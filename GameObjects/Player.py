@@ -79,5 +79,4 @@ class Player(GameObject):
         if(self.lives == 0):
             Game.gameOver()
         
-        for event in self.__events['tookDamage']:
-            event(self.lives)
+        self._dispatchEvent('onTookDamage', self.lives)
