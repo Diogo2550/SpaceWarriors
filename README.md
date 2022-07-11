@@ -12,7 +12,7 @@ Jogo feito em Python utilizando parcialmente a framework PyGame para a matéria 
   - Botão para finalizar o jogo ✅
 - Ao clicar em "iniciar" o jogador para uma tela de seleção de personagem ❌
 - Ao selecionar sua personagem o jogador irá para a primeira fase com uma seção tutorial ❌
-- Dá início à primeira fase após o tutorial e o cronômetro da fase começa a rodar 
+- Dá início à primeira fase após o tutorial e o cronômetro da fase começa a rodar ✅
 - Começam a spawnar monstros e obstáculos 
 - Destruir inimigos geram pontos 
 - Tomar dano diminui a vida 
