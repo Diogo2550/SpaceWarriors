@@ -20,8 +20,9 @@ class SceneManager:
     def changeScene(cls, sceneName: str):
         newScene = cls.__scenes[sceneName]
         
-        cls.sceneChangeHandler(cls.getCurrentScene(), newScene)
+        last_scene = cls.getCurrentScene()
         cls.__currentScene = newScene
+        cls.sceneChangeHandler(last_scene, newScene)
         
     @classmethod
     def addGameObjectToCurrentScene(cls, gameObject: GameObject):

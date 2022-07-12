@@ -32,6 +32,8 @@ class GameObject(GameObjectP):
     def destroy(self):
         from .Scene.SceneManager import SceneManager
         
+        print(self)
+        
         if(self.transform.parent):
             self.transform.parent.removeChild(self)
         else:

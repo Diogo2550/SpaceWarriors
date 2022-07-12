@@ -20,6 +20,7 @@ def createScene(name):
     from GameObjects.UI.LivesDisplay import LivesDisplay
     from GameObjects.UI.ScoreDisplay import ScoreDisplay
     from GameObjects.UI.TimerDisplay import TimerDisplay
+    from GameObjects.Spawner import Spawner
     
     scene = Scene(name)
     
@@ -32,12 +33,21 @@ def createScene(name):
     
     # Display de vida
     lives_hub = LivesDisplay()
+    lives_hub.setName('liver_hub')
+    
     score_hub = ScoreDisplay()
+    score_hub.setName('score_hub')
+    
     timer_hub = TimerDisplay()
+    timer_hub.setName('timer_hub')
+    
+    spawner = Spawner()
+    spawner.setName('spawner')
     
     scene.addGameObject(player)
     scene.addGameObject(lives_hub)
     scene.addGameObject(score_hub)
     scene.addGameObject(timer_hub)
+    scene.addGameObject(spawner)
     
     return scene
