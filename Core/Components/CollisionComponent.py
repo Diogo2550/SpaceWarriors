@@ -10,11 +10,11 @@ class CollisionComponent(Component):
         self.objects = []
         self.collidedList = []
         
-    def addCollisionWith(self, object):
-        if(isinstance(object, list)):
-            self.objects.extend(object)
+    def addCollisionWith(self, gameObject):
+        if(isinstance(gameObject, list)):
+            self.objects.extend(gameObject)
         else:
-            self.objects.append(object)
+            self.objects.append(gameObject)
 
     def _update(self):
         self.collidedList = []

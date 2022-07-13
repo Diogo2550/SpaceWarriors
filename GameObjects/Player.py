@@ -5,6 +5,7 @@ from Core.Vector import Vector2
 
 from Core.Components.KineticsComponent import KineticsComponent
 from Core.Components.SpriteComponent import SpriteComponent
+from Core.Components.CollisionComponent import CollisionComponent
 
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
@@ -14,21 +15,33 @@ class Player(GameObject):
     ''' Classe de GameObject que será controlada pelo jogador '''
     def __init__(self):
         super().__init__()
-        self.addComponent(KineticsComponent())
-        self.addComponent(SpriteComponent('assets/images/sprites/player_ship2_blue.png'))
+        self.__sprite_normal = 'assets/images/sprites/player_ship2_blue.png'
+        self.__sprite_invulnerable = 'assets/images/sprites/player_ship2_orange.png'
         
-        self.__lastFire = 0
+        self.addComponent(KineticsComponent())
+        self.addComponent(SpriteComponent(self.__sprite_normal))
+        #self.addComponent(CollisionComponent())
+        
         self.fireReload = 0
         self.lives = 3
+        self.isInvulnerable = False
+
+        self.__invulnerabilityTime = 4
+        self.__invulnerableTime = 0
+        self.__lastFire = 0
+        self.__spawn_position = None
         
 
     def _awake(self):
         self.kinetics = self.getComponent(KineticsComponent)
         self.sprite = self.getComponent(SpriteComponent)
+        self.collision = self.getComponent(CollisionComponent)
         
         Game.setPlayer(self)
 
     def _start(self):
+        self.__spawn_position = self.getPosition()
+        
         self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
         
@@ -59,6 +72,9 @@ class Player(GameObject):
             self.fire()
         # Fim tiro
         
+        if(self.isInvulnerable):
+            self.__tickInvulnerability()
+        
     def _afterUpdated(self):
         if(not Game.elementOnWindow(self)):
             self.translate(self.kinetics.velocity.normalize() * Game.SPEED_BASE)
@@ -70,13 +86,32 @@ class Player(GameObject):
         fire = GameObjectBuilder.startBuild(GunFire())\
                 .setPosition(self.getPosition() + Vector2(self.width / 2, 0))\
                 .build()
-
-        self.addChild(fire)
         
-    def tookDamage(self):
+        self.addChild(fire)
+        fire.addCollisionWithEnemies()
+        
+    def damage(self):
+        if(self.isInvulnerable):
+            return
+        
         self.lives -= 1
         
         if(self.lives == 0):
             Game.gameOver()
-        
+        self.__imortal_mode()
+
         self._dispatchEvent('onTookDamage', self.lives)
+        
+    def __imortal_mode(self):
+        self.__invulnerableTime = self.__invulnerabilityTime
+
+        self.sprite.changeSprite(self.__sprite_invulnerable)
+        self.setPosition(self.__spawn_position)
+
+        self.isInvulnerable = True
+    
+    def __tickInvulnerability(self):
+        self.__invulnerableTime -= Game.DELTA_TIME
+        if(self.__invulnerableTime <= 0):
+            self.isInvulnerable = False
+            self.sprite.changeSprite(self.__sprite_normal)

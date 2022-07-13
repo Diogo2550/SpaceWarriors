@@ -12,7 +12,7 @@ class LivesDisplay(GameObject):
         self.livesMarginRight = 8
         
     def _start(self):
-        Game.player.addEventListener('tookDamage', self.playerTookDamageHandler)
+        Game.player.addEventListener('onTookDamage', self.playerTookDamageHandler)
         livesQnt = Game.player.lives
         position = Vector2(
 			16,

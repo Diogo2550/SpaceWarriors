@@ -95,6 +95,7 @@ class Game:
     def setPlayer(cls, player):
         ''' Seta o jogador para que o mesmo possa ser visto globalmente '''
         cls.player = player
+        print(player)
 
 # ------------------------------- LIFECYCLE -------------------------------------
     def __getDefaultConf(self):

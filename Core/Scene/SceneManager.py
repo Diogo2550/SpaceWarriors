@@ -6,6 +6,8 @@ class SceneManager:
     __scenes = {}
     __currentScene = None
     __onSceneChangeEvent = []
+    __beforeSceneChangeEvent = []
+    __afterSceneChangeEvent = []
 
     @classmethod
     def addScene(cls, scene):
@@ -18,11 +20,14 @@ class SceneManager:
 
     @classmethod
     def changeScene(cls, sceneName: str):
-        newScene = cls.__scenes[sceneName]
+        current_scene = cls.getCurrentScene()
+        new_scene = cls.__scenes[sceneName]
         
-        last_scene = cls.getCurrentScene()
-        cls.__currentScene = newScene
-        cls.sceneChangeHandler(last_scene, newScene)
+        if(current_scene):
+	        cls.__beforeSceneChangeHandler(current_scene)
+         
+        cls.__sceneChangeHandler(current_scene, new_scene)
+        cls.__afterSceneChangeHandler(new_scene)
         
     @classmethod
     def addGameObjectToCurrentScene(cls, gameObject: GameObject):
@@ -35,8 +40,28 @@ class SceneManager:
     @classmethod
     def onSceneChange(cls, function):
         cls.__onSceneChangeEvent.append(function)
+    
+    @classmethod
+    def beforeSceneChange(cls, function):
+        cls.__beforeSceneChangeEvent.append(function)
+        
+    @classmethod
+    def afterSceneChange(cls, function):
+        cls.__afterSceneChangeEvent.append(function)
 
     @classmethod
-    def sceneChangeHandler(cls, fromScene, toScene):
+    def __sceneChangeHandler(cls, fromScene, toScene):
         for event in cls.__onSceneChangeEvent:
             event(fromScene, toScene)
+            
+        cls.__currentScene = toScene
+
+    @classmethod
+    def __beforeSceneChangeHandler(cls, currentScene):
+        for event in cls.__beforeSceneChangeEvent:
+            event(currentScene)
+            
+    @classmethod
+    def __afterSceneChangeHandler(cls, newSene):
+        for event in cls.__afterSceneChangeEvent:
+            event(newSene)

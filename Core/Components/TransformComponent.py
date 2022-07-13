@@ -35,7 +35,14 @@ class TransformComponent(Component):
 
         for event in self.onRotateEvent:
             event(angle)
+    
+    def vectorRotate(self, vector, angleOffset = 0):
+        import math
         
+        angle = math.atan(vector.x / vector.y)
+        angle = angleOffset + angle * (180/math.pi)
+        self.rotate(angle)
+    
     def getChildByType(self, childType):
         for child in self.children:
             if(isinstance(child, childType)):

@@ -34,8 +34,6 @@ class KineticsComponent(Component):
         self.gameObject.translate(self.__lastVelocity * -1)
 
     def _update(self):
-        position = Vector2(self.gameObject.x, self.gameObject.y)
-
         if(self.gravityActivated):
             self.velocity += self.gravityForce
 

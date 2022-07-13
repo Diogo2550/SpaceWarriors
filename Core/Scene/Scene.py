@@ -8,14 +8,13 @@ class Scene:
     def __init__(self, sceneName):
         # Objetos padrões usados para iniciar a cena, não deverão ser modificados
         self.__gameObjects = []
-		# GameObjects que foram iniciados pela cena. Os mesmos podem ser destruídos
-        self.__sceneObjects = []
 
         self.__sceneName = sceneName
         self.__activated = False
 
         SceneManager.addScene(self)
-        SceneManager.onSceneChange(self.__onSceneChangeHandler)
+        SceneManager.beforeSceneChange(self.__beforeSceneChangeHandler)
+        SceneManager.afterSceneChange(self.__afterSceneChangeHandler)
         
 # ------------------------- GAMEOBJECT ----------------------
     def addGameObject(self, gameObject: GameObject):
@@ -23,22 +22,24 @@ class Scene:
         self.__gameObjects.append(gameObject)
         return self
     
+    """ Método e ideia descontinuada
     def addGameObjectToScene(self, gameObject: GameObject, forceInit = True):
         ''' Adiciona uma gameobject à cena em execução '''
         from copy import deepcopy
         
         gameObject.forceInit()
         
-        self.__sceneObjects.append(gameObject.copy())
+        self.__gameObjects.append(gameObject.copy()) 
+    """
     
     def removeGameObject(self, gameObject):
-        self.__sceneObjects.remove(gameObject)
+        self.__gameObjects.remove(gameObject)
 
     def getGameObjects(self):
-        return self.__sceneObjects
+        return self.__gameObjects
 
     def getGameObjectWithName(self, name):
-        for gameObject in self.__sceneObjects:
+        for gameObject in self.__gameObjects:
             if(gameObject.getName() == name):
                 return gameObject
         return None
@@ -53,27 +54,27 @@ class Scene:
 # ---------------------- LIFE CYCLE ---------------------------
     def play(self):        
         # Update
-        for gameObject in self.__sceneObjects:
+        for gameObject in self.__gameObjects:
             gameObject.update()
 
         # Desenho
-        for gameObject in self.__sceneObjects:
+        for gameObject in self.__gameObjects:
             gameObject.draw()
 
 # ------------------------- GAMEOBJECT ----------------------
-    def __startGameObjects(self):
+    def __startGameObjects(self):        
         for gameObject in self.__gameObjects:
-            self.addGameObjectToScene(gameObject, False)
-        
-        for gameObject in self.__sceneObjects:
             gameObject.awake()
 
-        for gameObject in self.__sceneObjects:
+        for gameObject in self.__gameObjects:
             gameObject.start()
     
     def __destroyAllGameObjects(self):
-        for gameObject in self.__sceneObjects:
-            gameObject.destroy()
+        try:
+            while(len(self.__gameObjects) > 0):
+                self.__gameObjects[0].destroy()
+        except:
+            exit()
     
 # --------------------- MANIPULADORES DE CENA ----------------
     def __enableScene(self): 
@@ -83,16 +84,18 @@ class Scene:
         
     def __disableScene(self):
         if(self.__activated):
-            self.__destroyAllGameObjects()
+            #self.__destroyAllGameObjects()
             self.__activated = False
 
 # ---------------------- EVENTS ---------------------------
     def onActiveScene(self):
         pass
     
-    def __onSceneChangeHandler(self, fromScene, toScene):
-        if(toScene.getSceneName() == self.__sceneName):
+    def __afterSceneChangeHandler(self, new_scene):
+        if(self.getSceneName() == new_scene.getSceneName()):
             self.activeScene()
             self.onActiveScene()
-        elif(fromScene and fromScene.getSceneName() == self.__sceneName):
+            
+    def __beforeSceneChangeHandler(self, current_scene):
+        if(self.getSceneName() == current_scene.getSceneName()):
             self.__disableScene()

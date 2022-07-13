@@ -7,9 +7,13 @@ from .Components.Abstracts.DrawingComponent import DrawingComponent
 from .Components.CollisionComponent import CollisionComponent
 
 # Classe customizada para manipula��o de gameobjects
-class GameObject(GameObjectP):
+class GameObject():
     def __init__(self, name = ''):
-        super().__init__()
+        self.x = 0
+        self.y = 0
+        self.width = 0
+        self.height = 0
+        
         self.components = []
         
         self.transform = TransformComponent()
@@ -21,7 +25,7 @@ class GameObject(GameObjectP):
         self.__awaked = False
         self.__started = False
         
-        self.__events = { }
+        self._events = { }
 
     def setName(self, name):
         self.transform.setName(name)
@@ -31,8 +35,6 @@ class GameObject(GameObjectP):
 
     def destroy(self):
         from .Scene.SceneManager import SceneManager
-        
-        print(self)
         
         if(self.transform.parent):
             self.transform.parent.removeChild(self)
@@ -59,6 +61,10 @@ class GameObject(GameObjectP):
             if(isinstance(component, componentType)):
                 return component
         return None
+    
+    def getAllComponents(self):
+        ''' Pega a instância do ComponentType requisitado, caso haja, presente no objeto. Retorna None caso não encontra '''
+        return self.components
 
 
 #------------------------LIFECICLE METHODS OF GAMEOBJECTS-------------------------------
@@ -87,6 +93,8 @@ class GameObject(GameObjectP):
                 if(isinstance(component, CollisionComponent) and self.transform.parent):
                     parentCollision = self.transform.parent.gameObject.getComponent(CollisionComponent)
                     if(parentCollision and parentCollision.isColliding()):
+                        component.update()
+                    else:
                         component.update()
                 else:
                     component.update()
@@ -198,13 +206,19 @@ class GameObject(GameObjectP):
         pass
     
     def addEventListener(self, key, func):
-        if(not key in self.__events):
-            self.__events[key] = []
-        self.__events[key].append(func)
+        if(not key in self._events):
+            self._events[key] = []
+        self._events[key].append(func)
+        
+    def removeEventListener(self, key, func):
+        if(key in self._events):
+            events = self._events.get(key)
+            if func in events:
+                events.remove(func)
     
     def _dispatchEvent(self, eventName, arg):
-        if eventName in self.__events:
-            for event in self.__events[eventName]:
+        if eventName in self._events:
+            for event in self._events[eventName]:
                 event(arg)
                 
 #-------------------------EVENTS-------------------------------
@@ -213,4 +227,25 @@ class GameObject(GameObjectP):
     
     def copy(self):
         import copy
-        return copy.copy(self)
+        
+        """ copyobj = self.__class__()
+        for name, attr in self.__dict__.items():
+            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
+                copyobj.__dict__[name] = attr.copy()
+            else:
+                copyobj.__dict__[name] = copy.deepcopy(attr)
+        return copyobj """
+        
+        copy_obj = copy.copy(self)
+        copy_components = copy_obj.getAllComponents()
+        
+        for component in copy_components:
+            component.gameObject = copy_obj
+        
+        return copy_obj
+    
+    def collided(self, obj):
+        # Module import
+        from Core.PPlay.collision import Collision
+
+        return Collision.collided(self, obj)

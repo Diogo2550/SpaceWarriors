@@ -21,6 +21,7 @@ def createScene(name):
     from GameObjects.UI.ScoreDisplay import ScoreDisplay
     from GameObjects.UI.TimerDisplay import TimerDisplay
     from GameObjects.Spawner import Spawner
+    from GameObjects.Enemies.EnemyDefault import EnemyDefault
     
     scene = Scene(name)
     
@@ -43,6 +44,16 @@ def createScene(name):
     
     spawner = Spawner()
     spawner.setName('spawner')
+    
+    enemy_1 = EnemyDefault()
+    enemy_2 = EnemyDefault()
+    enemy_2.difficulty = 4
+    enemy_3 = EnemyDefault()
+    enemy_3.difficulty = 8
+    
+    spawner.addEnemy(enemy_1)
+    spawner.addEnemy(enemy_2)
+    spawner.addEnemy(enemy_3)
     
     scene.addGameObject(player)
     scene.addGameObject(lives_hub)
