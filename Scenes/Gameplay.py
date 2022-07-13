@@ -22,6 +22,7 @@ def createScene(name):
     from GameObjects.UI.TimerDisplay import TimerDisplay
     from GameObjects.Spawner import Spawner
     from GameObjects.Enemies.EnemyDefault import EnemyDefault
+    from GameObjects.Obstacles._Obstacle import ObstacleBase
     
     scene = Scene(name)
     
@@ -42,8 +43,9 @@ def createScene(name):
     timer_hub = TimerDisplay()
     timer_hub.setName('timer_hub')
     
-    spawner = Spawner()
-    spawner.setName('spawner')
+    
+    enemy_spawner = Spawner()
+    enemy_spawner.setName('enemy_spawner')
     
     enemy_1 = EnemyDefault()
     enemy_2 = EnemyDefault()
@@ -51,14 +53,23 @@ def createScene(name):
     enemy_3 = EnemyDefault()
     enemy_3.difficulty = 8
     
-    spawner.addEnemy(enemy_1)
-    spawner.addEnemy(enemy_2)
-    spawner.addEnemy(enemy_3)
+    enemy_spawner.add(enemy_1)
+    enemy_spawner.add(enemy_2)
+    enemy_spawner.add(enemy_3)
+    
+    
+    obstacle_spawner = Spawner()
+    obstacle_spawner.setName('obstacle_spawner')
+    
+    meteor_1 = ObstacleBase()
+    
+    obstacle_spawner.add(meteor_1)
     
     scene.addGameObject(player)
     scene.addGameObject(lives_hub)
     scene.addGameObject(score_hub)
     scene.addGameObject(timer_hub)
-    scene.addGameObject(spawner)
+    scene.addGameObject(enemy_spawner)
+    scene.addGameObject(obstacle_spawner)
     
     return scene

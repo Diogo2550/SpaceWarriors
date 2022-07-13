@@ -20,6 +20,10 @@ class Scene:
     def addGameObject(self, gameObject: GameObject):
         ''' Adiciona uma gameobject à cena.'''
         self.__gameObjects.append(gameObject)
+        
+        if(self.__activated):
+            gameObject.forceInit()
+            
         return self
     
     """ Método e ideia descontinuada

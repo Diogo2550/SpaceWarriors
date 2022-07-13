@@ -5,7 +5,6 @@ from Core.Scene.Scene import Scene
 from Core.GameStateManager import GameStateManager
 
 from GameObjects.Player import Player
-from GameObjects.Asteroid import Asteroid
 
 from Scenes.Menu import build as bsMenu
 from Scenes.Gameplay import build as bsGameplay

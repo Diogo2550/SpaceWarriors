@@ -17,7 +17,7 @@ class EnemyBase(GameObject):
         self.move_speed = None # Setadp durante o Start
         self.score_base = 100
         self.lives = 1
-        self.vector_direction = None
+        self.direction_vector = None
         self._fire_delay = 2
         self._reload_time = 0        
 
@@ -65,27 +65,28 @@ class EnemyBase(GameObject):
         self._reload_time = self._fire_delay + randint(-percentage, int(percentage / 2))
     
     def _faceToPlayer(self):
+        from random import randint
+        
         ''' Vira a rotação do gameobject em direção ao player '''
         playerPosition = Game.player.getPosition()
         position = self.getPosition()
         vector_distance = playerPosition - position
+        
+        self.direction_vector = vector_distance.normalize()
+        vetor_ruido = Vector2(randint(0, 20), randint(0, 20)) / 100
+        
+        self.direction_vector = (self.direction_vector + vetor_ruido).normalize()
 
         angle = 0
-        if(vector_distance.x == 0):
+        if(self.direction_vector.x == 0):
             pass
         else:
-            angle = math.atan(vector_distance.x/vector_distance.y)
+            angle = math.atan(self.direction_vector.x/self.direction_vector.y)
             angle = angle * (180/math.pi)
         self.transform.rotate(angle)
         
-    def _followPlayer(self):
-        playerPosition = Game.player.getPosition()
-        position = self.getPosition()
-        
-        vector_distance = playerPosition - position
-        self.vector_direction = vector_distance.normalize()
-        
-        self.kinetics.setVelocity(self.vector_direction * self.move_speed)
+    def _followPlayer(self):                        
+        self.kinetics.setVelocity(self.direction_vector * self.move_speed)
         
     def _tookDamage(self):
         Game.score += self.score_base

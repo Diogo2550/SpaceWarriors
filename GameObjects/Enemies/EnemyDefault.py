@@ -42,6 +42,7 @@ class EnemyDefault(EnemyBase):
     
     def _fire(self):
         from GameObjects.GunFire import GunFire
+        from Core.Scene.SceneManager import SceneManager
         
         # Irei bolar um tiro no formato \|/
         # Primeiro, crio os 3 tiros
@@ -51,25 +52,25 @@ class EnemyDefault(EnemyBase):
         
         
         # É NECESSÁRIO adicioná-los como filha ANTES de alterar as propriedades
-        self.addChild(shoot)
-        self.addChild(shoot2)
-        self.addChild(shoot3)
+        SceneManager.addGameObjectToCurrentScene(shoot)
+        SceneManager.addGameObjectToCurrentScene(shoot2)
+        SceneManager.addGameObjectToCurrentScene(shoot3)
         
         
-        # Fazemos a bala "olhar" para o Player
+        # Fazemos a bala "olhar" para a direção da nave
         angleOffset = 180 # Apenas porque a imagem da bala está invertida
-        shoot.transform.vectorRotate(self.vector_direction, angleOffset)
-        shoot2.transform.vectorRotate(self.vector_direction, angleOffset)
-        shoot3.transform.vectorRotate(self.vector_direction, angleOffset)
+        shoot.transform.vectorRotate(self.direction_vector, angleOffset)
+        shoot2.transform.vectorRotate(self.direction_vector, angleOffset)
+        shoot3.transform.vectorRotate(self.direction_vector, angleOffset)
         
         
         # Colocamos elas para nascerem em frente a nave
-        shoot.setLocalPosition(
+        shoot.setPosition(
             # Pegamos a posição central do inimigo e somamos com "a direção que olha com metade de seu próprio tamanho"
-			self.getObjectCenter() + (self.vector_direction * (self.width / 2.3))	
+			self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3))	
 		)
-        shoot2.setLocalPosition(self.getObjectCenter() + (self.vector_direction * (self.width / 2.3)))
-        shoot3.setLocalPosition(self.getObjectCenter() + (self.vector_direction * (self.width / 2.3)))
+        shoot2.setPosition(self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3)))
+        shoot3.setPosition(self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3)))
         
         
         # Configuro agora a movimentação dos tiros
@@ -77,12 +78,12 @@ class EnemyDefault(EnemyBase):
         shoot2.kinetics.setVelocity(
             # Pego o vetor direção que a nave está olhando e multiplico pela
             # velocidade que quero adicionar ao tiro
-            (self.vector_direction) * shoot.moveSpeedBase * .8
+            (self.direction_vector) * shoot.moveSpeedBase * .8
         )
         # Tiro que vai mais a direta
-        shoot.kinetics.setVelocity((self.vector_direction + Vector2(.15, 0)) * shoot.moveSpeedBase * .8)
+        shoot.kinetics.setVelocity((self.direction_vector + Vector2(.15, 0)) * shoot.moveSpeedBase * .8)
         # Tiro que vai mais a esquerda
-        shoot3.kinetics.setVelocity((self.vector_direction + Vector2(-.15, 0)) * shoot.moveSpeedBase * .8)
+        shoot3.kinetics.setVelocity((self.direction_vector + Vector2(-.15, 0)) * shoot.moveSpeedBase * .8)
         
         
         # Após todas as configurações, colocamos a bala para colidir com o Player

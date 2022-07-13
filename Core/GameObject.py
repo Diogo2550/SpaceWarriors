@@ -42,6 +42,7 @@ class GameObject():
             SceneManager.getCurrentScene().removeGameObject(self)
             
         self.disable()
+        del self
 
     def setParent(self, parent):
         self.transform.parent = parent

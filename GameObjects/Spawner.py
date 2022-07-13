@@ -1,6 +1,7 @@
 #coding=UTF-8
 from Core.GameObject import GameObject
 from Core.Game import Game
+from Core.Vector import Vector2
 
 class Spawner(GameObject):
     def __init__(self):
@@ -22,7 +23,7 @@ class Spawner(GameObject):
     def _update(self):
         self.doTick()
         
-    def addEnemy(self, enemy):
+    def add(self, enemy):
         if(len(self.__pool_enemies) > 0):
             # Como esse método é chamado pouquíssimas vezes não há problema fazer um método mais custoso como este
             position = [ index for index in range(len(self.__pool_enemies)) if self.__pool_enemies[index].difficulty > enemy.difficulty ]
@@ -40,23 +41,21 @@ class Spawner(GameObject):
         self.__respawn_ticks += Game.DELTA_TIME
         if(self.__respawn_ticks >= self.__respawn_delay):
             self.__respawn_ticks = 0
-            self.__spawnEnemy()
+            self.__spawn()
             
             # total - 1
             # 0     - 10
             self.__spawner_level = self.__timer.timer_total // 10 - self.__timer.timer_current // 10
         
-    def __spawnEnemy(self):
-        horizontal_offset = 100
-        vertical_offset = 40
+    def __spawn(self):        
+        object_to_spawn = self.__choose()
         
-        enemy_to_spawn = self.__chooseEnemy()
-        enemy_to_spawn.configure_spawn(horizontal_offset, vertical_offset)
+        object_to_spawn.setPosition(Vector2(-1000, -1000))
         
-        self.addChild(enemy_to_spawn)
-        self._dispatchEvent('onSpawn', enemy_to_spawn)
+        self.addChild(object_to_spawn)
+        self._dispatchEvent('onSpawn', object_to_spawn)
         
-    def __chooseEnemy(self):
+    def __choose(self):
         from random import randint
         
         difficulty = randint(0, self.__max_pool_difficulty)
