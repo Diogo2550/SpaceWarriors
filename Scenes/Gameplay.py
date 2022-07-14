@@ -23,6 +23,8 @@ def createScene(name):
     from GameObjects.Spawner import Spawner
     from GameObjects.Enemies.EnemyDefault import EnemyDefault
     from GameObjects.Obstacles._Obstacle import ObstacleBase
+    from GameObjects.Levels.Level import Level
+    from GameObjects.Levels.LevelManager import LevelManager
     
     scene = Scene(name)
     
@@ -33,6 +35,7 @@ def createScene(name):
 		Vector2(player.width / 2, player.height)
     )
     
+    # ------------------------------- HUBS --------------------------------
     # Display de vida
     lives_hub = LivesDisplay()
     lives_hub.setName('liver_hub')
@@ -44,6 +47,9 @@ def createScene(name):
     timer_hub.setName('timer_hub')
     
     
+    
+    
+    # ------------------------------- SPAWNS --------------------------------
     enemy_spawner = Spawner()
     enemy_spawner.setName('enemy_spawner')
     
@@ -60,16 +66,33 @@ def createScene(name):
     
     obstacle_spawner = Spawner()
     obstacle_spawner.setName('obstacle_spawner')
+    obstacle_spawner.active()
     
     meteor_1 = ObstacleBase()
     
     obstacle_spawner.add(meteor_1)
     
+    
+    
+    
+    # ------------------------------- LEVELS --------------------------------
+    level_manager = LevelManager()
+    
+    level_1 = Level()
+    level_1.setSoundTrack('assets/songs/soundtrack/fase01.mp3')
+    level_1.addSpawner(enemy_spawner)
+    
+    level_manager.addLevel(level_1)
+    
+    
+    
+    
+    # ------------------------------- ADICIONAR A CENA --------------------------------
     scene.addGameObject(player)
     scene.addGameObject(lives_hub)
     scene.addGameObject(score_hub)
     scene.addGameObject(timer_hub)
-    scene.addGameObject(enemy_spawner)
     scene.addGameObject(obstacle_spawner)
+    scene.addGameObject(level_manager)
     
     return scene

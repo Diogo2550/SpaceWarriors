@@ -32,6 +32,10 @@ class SceneManager:
     @classmethod
     def addGameObjectToCurrentScene(cls, gameObject: GameObject):
         cls.getCurrentScene().addGameObject(gameObject)
+    
+    @classmethod
+    def removeGameObjectToCurrentScene(cls, gameObject: GameObject):
+        cls.getCurrentScene().removeGameObject(gameObject)
 
     @classmethod
     def getCurrentScene(cls):

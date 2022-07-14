@@ -2,6 +2,7 @@
 from Core.GameObject import GameObject
 from Core.Game import Game
 from Core.Vector import Vector2
+from Core.Scene.SceneManager import SceneManager
 
 class Spawner(GameObject):
     def __init__(self):
@@ -16,12 +17,14 @@ class Spawner(GameObject):
         self.__spawner_level = 1
         
         self.__timer = None
+        self._is_active = False
     
     def _start(self):
         self.__timer = Game.findGameObjectWithName('timer_hub')
     
     def _update(self):
-        self.doTick()
+        if(self._is_active):
+	        self._doTick()
         
     def add(self, enemy):
         if(len(self.__pool_enemies) > 0):
@@ -37,7 +40,15 @@ class Spawner(GameObject):
         if(enemy.difficulty > self.__max_pool_difficulty):
             self.__max_pool_difficulty = enemy.difficulty
     
-    def doTick(self):
+    def active(self):
+        SceneManager.addGameObjectToCurrentScene(self)
+        self._is_active = True
+    
+    def deactive(self):
+        SceneManager.removeGameObjectToCurrentScene(gameObject)
+        self._is_active = False
+    
+    def _doTick(self):
         self.__respawn_ticks += Game.DELTA_TIME
         if(self.__respawn_ticks >= self.__respawn_delay):
             self.__respawn_ticks = 0

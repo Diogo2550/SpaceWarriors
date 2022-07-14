@@ -6,7 +6,10 @@ from Core.Vector import Vector2
 from Core.Game import *
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
-# Classe responsável por representar a bola do Pong
+
+from GameObjects.Levels.LevelManager import LevelManager
+
+
 class GunFire(GameObject):
     def __init__(self):
         super().__init__()
@@ -17,7 +20,7 @@ class GunFire(GameObject):
         self.addComponent(CollisionComponent())
 
     def _start(self):
-        self.spawn = Game.findGameObjectWithName('enemy_spawner')
+        self.obs_spawn = LevelManager.findSpawnerWithName('enemy_spawner')
         self.obs_spawn = Game.findGameObjectWithName('obstacle_spawner')
         self.setPosition(self.getPosition() - Vector2(self.width / 2, 0))
         
