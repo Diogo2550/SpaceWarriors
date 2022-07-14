@@ -2,11 +2,14 @@ from Core.Builders.GameObjectBuilder import GameObjectBuilder
 from Core.Scene.Scene import Scene
 from Core.Vector import Vector2
 from Core.Game import Game
+from Core.PPlay.sound import Sound
 
 from Core.Components.SpriteComponent import SpriteComponent
 
 from GameObjects.UI._Button import UIButton
 from GameObjects.UI._Text import UIText
+
+music = Sound('assets/songs/soundtrack/menu.mp3')
 
 def build(name):
     scene = createScene(name)
@@ -29,10 +32,17 @@ def settings():
 
 def onActiveScene():
     from Core.GameStateManager import GameStateManager
+    global music
+    
     GameStateManager.instance.changeGameState(GameStateManager.MAIN_MENU)
+    music.play()
+
+def onDeactiveScene():
+    music.stop()
 
 def addChangeEvent(scene):
     scene.onActiveScene = onActiveScene
+    scene.onDeactiveScene = onDeactiveScene
 
 def createScene(name):
     scene = Scene(name)
@@ -91,9 +101,9 @@ def createScene(name):
         .setName('game_title')\
         .setPosition(
 			Game.getWindowCenter() -
-			Vector2(len(title) * 24, Game.WINDOW_HEIGHT / 3)
+			Vector2(len(title) * 30, Game.WINDOW_HEIGHT / 3)
 		).build()
-    game_title.configureText(120, (24, 42, 168))
+    game_title.configureText(80, (24, 42, 168))
     game_title.setText(title)
     
     # Adição dos objetos na cena

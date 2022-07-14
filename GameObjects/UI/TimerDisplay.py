@@ -15,17 +15,26 @@ class TimerDisplay(UIText):
         self.timer_current = self.timer_total
         self.__tick_size = 1
         self.__tick = self.__tick_size
+        
+        self.__is_ticking = False
     
     def _start(self):
         super()._start()
         self.configureText(color=(164, 220, 220))
         
     def _update(self):
-        self.setText('%02d:%02d' % (self.timer_current // 60, self.timer_current % 60))
-        self.setPosition(Vector2((Game.WINDOW_WIDTH / 2 - len(self.text_string) / 2 * 11), 16))
-        self.text.setText(self.text_string)
-        
-        self.__tickTimer()
+        if(self.__is_ticking):
+            self.setText('%02d:%02d' % (self.timer_current // 60, self.timer_current % 60))
+            self.setPosition(Vector2((Game.WINDOW_WIDTH / 2 - len(self.text_string) / 2 * self.getFontSize()), 16))
+            self.text.setText(self.text_string)
+            
+            self.__tickTimer()
+    
+    def pause(self):
+        self.__is_ticking = False
+    
+    def play(self):
+        self.__is_ticking = True
     
     def setTimer(self, seconds):
         self.timer_total = seconds
@@ -39,4 +48,3 @@ class TimerDisplay(UIText):
             
             if(self.timer_current <= 0):
                 self._dispatchEvent('onTimerEnds', True)
-        

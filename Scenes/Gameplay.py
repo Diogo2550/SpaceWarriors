@@ -3,6 +3,10 @@ from Core.Scene.Scene import Scene
 from Core.Vector import Vector2
 from Core.Game import Game
 
+from GameObjects.Levels.LevelManager import LevelManager
+
+obstacle_spawner = None
+
 def build(name):
     scene = createScene(name)
     addChangeEvent(scene)
@@ -10,7 +14,11 @@ def build(name):
 
 def onActiveScene():
     from Core.GameStateManager import GameStateManager
+    global obstacle_spawner
+    
     GameStateManager.instance.changeGameState(GameStateManager.GAMEPLAY)
+    obstacle_spawner.active()
+    LevelManager.instance.startGame()
 
 def addChangeEvent(scene):
     scene.onActiveScene = onActiveScene
@@ -24,7 +32,11 @@ def createScene(name):
     from GameObjects.Enemies.EnemyDefault import EnemyDefault
     from GameObjects.Obstacles._Obstacle import ObstacleBase
     from GameObjects.Levels.Level import Level
-    from GameObjects.Levels.LevelManager import LevelManager
+    from Core.Config import get_config
+    
+    global obstacle_spawner
+    
+    config = get_config()
     
     scene = Scene(name)
     
@@ -66,7 +78,6 @@ def createScene(name):
     
     obstacle_spawner = Spawner()
     obstacle_spawner.setName('obstacle_spawner')
-    obstacle_spawner.active()
     
     meteor_1 = ObstacleBase()
     
@@ -76,14 +87,25 @@ def createScene(name):
     
     
     # ------------------------------- LEVELS --------------------------------
-    level_manager = LevelManager()
+    lvl_manager = LevelManager() # Apenas instancia o singleton
+    levels = config['levels']
     
-    level_1 = Level()
-    level_1.setSoundTrack('assets/songs/soundtrack/fase01.mp3')
-    level_1.addSpawner(enemy_spawner)
-    
-    level_manager.addLevel(level_1)
-    
+    level_spawners = [enemy_spawner]
+    i = 0
+    for key in levels:
+        level_config = levels[key]
+        
+        level = Level(
+            level_config['time'], 
+            level_config['name'], 
+            level_config['pool_size'], 
+            level_config['respawn_delay_base']
+        )
+        level.setSoundTrack(level_config['music'])
+        level.addSpawner(level_spawners[i])
+        i += 1
+        
+        LevelManager.instance.addLevel(level)
     
     
     
@@ -93,6 +115,6 @@ def createScene(name):
     scene.addGameObject(score_hub)
     scene.addGameObject(timer_hub)
     scene.addGameObject(obstacle_spawner)
-    scene.addGameObject(level_manager)
+    
     
     return scene

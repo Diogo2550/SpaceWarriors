@@ -20,7 +20,7 @@ class GunFire(GameObject):
         self.addComponent(CollisionComponent())
 
     def _start(self):
-        self.obs_spawn = LevelManager.findSpawnerWithName('enemy_spawner')
+        self.enemy_spawn = LevelManager.instance.findSpawnerWithName('enemy_spawner')
         self.obs_spawn = Game.findGameObjectWithName('obstacle_spawner')
         self.setPosition(self.getPosition() - Vector2(self.width / 2, 0))
         
@@ -37,10 +37,11 @@ class GunFire(GameObject):
     
     def destroy(self):
         super().destroy()
-        self.spawn.removeEventListener('onSpawn', self._addColisionWith)
+        self.enemy_spawn.removeEventListener('onSpawn', self._addColisionWith)
+        self.obs_spawn.removeEventListener('onSpawn', self._addColisionWith)
     
     def addCollisionWithEnemies(self):
-        enemies_alive = self.spawn.transform.children
+        enemies_alive = self.enemy_spawn.transform.children
         obstacles = self.obs_spawn.transform.children
         
         for enemy in enemies_alive:
@@ -48,7 +49,7 @@ class GunFire(GameObject):
         for obs in obstacles:
             self._addColisionWith(obs)
         
-        self.spawn.addEventListener('onSpawn', self._addColisionWith)
+        self.enemy_spawn.addEventListener('onSpawn', self._addColisionWith)
         self.obs_spawn.addEventListener('onSpawn', self._addColisionWith)
         
     def addCollisionWithPlayer(self):

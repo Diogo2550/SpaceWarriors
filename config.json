@@ -10,9 +10,11 @@
 
 	"levels": {
 		"01": {
-			"time": 60,
+			"name": "Level 01",
+			"time": 5,
 			"pool_size": 6,
-			"respawn_delay_base": 3
+			"respawn_delay_base": 3,
+			"music": "assets/songs/soundtrack/fase01.mp3"
 		}
 	}
 }

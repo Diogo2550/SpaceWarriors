@@ -95,6 +95,9 @@ class Scene:
     def onActiveScene(self):
         pass
     
+    def onDeactiveScene(self):
+        pass
+    
     def __afterSceneChangeHandler(self, new_scene):
         if(self.getSceneName() == new_scene.getSceneName()):
             self.activeScene()
@@ -103,3 +106,4 @@ class Scene:
     def __beforeSceneChangeHandler(self, current_scene):
         if(self.getSceneName() == current_scene.getSceneName()):
             self.__disableScene()
+            self.onDeactiveScene()

@@ -104,22 +104,8 @@ class Game:
 
 # ------------------------------- LIFECYCLE -------------------------------------
     def __getDefaultConf(self):
-        import os.path
-        import json
-        
-        config_file = open('config.json')
-        config = json.load(config_file)
-        
-        config_file.close()
-        
-        # Configurações de desenvolvimento
-        if(os.path.exists('config.development.json')):
-            development_config_file = open('config.development.json')
-            development_config = json.load(development_config_file)
-            
-            development_config_file.close()
-            
-            config.update(development_config)
+        from Core.Config import get_config
+        config = get_config()
         
         Game.WINDOW_TITLE = config['GAME_NAME']
         Game.WINDOW_HEIGHT = config['WINDOW_HEIGHT']

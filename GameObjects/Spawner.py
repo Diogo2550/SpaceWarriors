@@ -7,7 +7,7 @@ from Core.Scene.SceneManager import SceneManager
 class Spawner(GameObject):
     def __init__(self):
         super().__init__()
-        self.__pool_size = 10
+        self.__pool_size = 3
         self.__pool_enemies = []
         self.__max_pool_difficulty = 0
         
@@ -25,7 +25,13 @@ class Spawner(GameObject):
     def _update(self):
         if(self._is_active):
 	        self._doTick()
+    
+    def setRespawnDelay(self, delay):
+        self.__respawn_delay = delay
         
+    def setPoolSize(self, size):
+        self.__pool_size = size
+    
     def add(self, enemy):
         if(len(self.__pool_enemies) > 0):
             # Como esse método é chamado pouquíssimas vezes não há problema fazer um método mais custoso como este
@@ -45,7 +51,7 @@ class Spawner(GameObject):
         self._is_active = True
     
     def deactive(self):
-        SceneManager.removeGameObjectToCurrentScene(gameObject)
+        SceneManager.removeGameObjectToCurrentScene(self)
         self._is_active = False
     
     def _doTick(self):

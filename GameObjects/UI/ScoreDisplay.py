@@ -18,6 +18,6 @@ class ScoreDisplay(UIText):
         
     def _update(self):
         self.setText(f'Score: {Game.score}')
-        self.setPosition(Vector2((Game.WINDOW_WIDTH - len(self.text_string) * 11) - 16, 16))
+        self.setPosition(Vector2((Game.WINDOW_WIDTH - len(self.text_string) * self.getFontSize()) - 16, 16))
         self.text.setText(self.text_string)
         

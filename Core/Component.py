@@ -6,7 +6,7 @@ class Component:
         pass
 
     def start(self):
-        pass
+        self._start()
 
     def update(self):
         self._update()
@@ -21,3 +21,6 @@ class Component:
     
     def _update(self):
         raise NotImplementedError("O metodo deve ser sobrescrito")
+    
+    def _start(self):
+        pass

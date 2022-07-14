@@ -12,19 +12,25 @@ class TextComponent(DrawingComponent):
     def __init__(self):
         super().__init__()
         self.font_color = (255, 255, 255)
-        self.font_family = "Arial"
+        self.font_family = 'assets/fonts/kenvector_future.ttf'
         self.font_size = 12
         self.text = ""
         
+        self.font = None
+    
+    def _start(self):
+        if(len(self.font_family.split('/')) > 0):
+            self.font = pygame.font.Font(self.font_family, self.font_size)
+        else:
+        	self.font = pygame.font.SysFont(self.font_family, self.font_size, False, False)
+    
     def _update(self):
         pass
 
     def draw(self):
-        font = pygame.font.SysFont(self.font_family, self.font_size, False, False)
-
         lines = self.text.splitlines()
         for i, l in enumerate(lines):
-            Game.window.screen.blit(font.render(l, 0, self.font_color), (self.gameObject.x, self.gameObject.y + self.font_size*i))
+            Game.window.screen.blit(self.font.render(l, 0, self.font_color), (self.gameObject.x, self.gameObject.y + self.font_size*i))
         
     def setText(self, text):
         self.text = text
