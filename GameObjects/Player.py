@@ -56,7 +56,7 @@ class Player(GameObject):
             velocity.y = -1
         elif(keyboard.key_pressed('S') and self.getPosition().y < Game.WINDOW_HEIGHT - self.height):
             velocity.y = 1
-            
+        
         if(keyboard.key_pressed('A') and self.getPosition().x > 0):
             velocity.x = -1
         elif(keyboard.key_pressed('D') and self.getPosition().x < Game.WINDOW_WIDTH - self.width):
@@ -82,7 +82,7 @@ class Player(GameObject):
             
     def fire(self):
         self.__lastFire = self.fireReload
-
+        
         fire = GameObjectBuilder.startBuild(GunFire())\
                 .setPosition(self.getPosition() + Vector2(self.width / 2, 0))\
                 .build()

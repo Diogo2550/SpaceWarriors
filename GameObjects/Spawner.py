@@ -4,6 +4,8 @@ from Core.Game import Game
 from Core.Vector import Vector2
 from Core.Scene.SceneManager import SceneManager
 
+from Core.GameStateManager import GameStateManager
+
 class Spawner(GameObject):
     def __init__(self):
         super().__init__()
@@ -52,9 +54,22 @@ class Spawner(GameObject):
     
     def deactive(self):
         SceneManager.removeGameObjectToCurrentScene(self)
+        
+        """ 
+        while(len(self.__pool_enemies) > 0):
+            gameobj = self.__pool_enemies.pop()
+            gameobj.disable()
+         """
+         
+        for gameobj in self.transform.children:
+            gameobj.destroy()
+            
         self._is_active = False
     
     def _doTick(self):
+        if not GameStateManager.isGameState(GameStateManager.GAMEPLAY):
+            return
+        
         self.__respawn_ticks += Game.DELTA_TIME
         if(self.__respawn_ticks >= self.__respawn_delay):
             self.__respawn_ticks = 0

@@ -8,16 +8,20 @@ from GameObjects.UI._Text import UIText
 class LevelNameLabel(UIText):
     def __init__(self, name):
         super().__init__()
-        self.__text = name
+        self.text_string = name
         self.__timer = 5
         
     def _start(self):
         super()._start()
         from Core.Vector import Vector2
         
-        self.text.setText(self.__text)
+        self.text.setText(self.text_string)
         
-        self.setPosition(Game.getWindowCenter() - Vector2(len(self.__text) * self.getFontSize() / 2, self.getFontSize() / 2))
+        max_line_lenght = self.__get_max_line_lenght()
+        
+        self.setPosition(
+            Game.getWindowCenter() - Vector2(max_line_lenght * self.getFontSize() / 3, self.getFontSize() / 2)
+        )
         
     def _update(self):
         super()._update()
@@ -28,3 +32,13 @@ class LevelNameLabel(UIText):
             LevelManager.instance.getCurrentLevel().start()
             Game.findGameObjectWithName('timer_hub').play()
             self.destroy()
+            
+    def __get_max_line_lenght(self):
+        lines = self.text_string.splitlines()
+        
+        bigger = 0
+        for line in lines:
+            if(len(line) > bigger):
+                bigger = len(line)
+        
+        return bigger

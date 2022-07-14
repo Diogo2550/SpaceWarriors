@@ -9,33 +9,21 @@ from Core.GameStateManager import GameStateManager
 from GameObjects.Spawner import Spawner
 from GameObjects.UI._Text import UIText
 
-class Level(GameObject):
-    def __init__(self, time, text, pool_size, respawn_delay_base):
+class EndLevel(GameObject):
+    def __init__(self, text):
         super().__init__()
         self.soundtrack: Sound = None
-        self.__spawners = []
-                
-        self.__pool_size = pool_size
-        self.__respawn_delay_base = respawn_delay_base
-
-        self.__time = time
+        self.__activated = False
         self.__text = text
         
-        self.__activated = False
-            
     def setSoundTrack(self, music_name):
         self.soundtrack = Sound(music_name)
-    
-    def addSpawner(self, spawner: Spawner):
-        spawner.setRespawnDelay(self.__respawn_delay_base)
-        spawner.setPoolSize(self.__pool_size)
-        self.__spawners.append(spawner)
     
     def active(self):
         from GameObjects.Levels.LevelNameLabel import LevelNameLabel
         
         timer = Game.findGameObjectWithName('timer_hub')
-        timer.setTimer(self.__time)
+        timer.pause()
         
         level_label = LevelNameLabel(self.__text)
         SceneManager.addGameObjectToCurrentScene(level_label)
@@ -43,21 +31,27 @@ class Level(GameObject):
         GameStateManager.instance.changeGameState(GameStateManager.WAITING)
         self.__activated = True
     
+    def start(self):
+        self.save()
+        
     def deactive(self):
         self.soundtrack.stop()
-        
-        for spawner in self.__spawners:
-            spawner.deactive()
             
         self.__activated = False
+        
+        self.save()
     
-    def start(self):
-        self.soundtrack.play()
+    def findSpawnerWithName(self):
+        return None
+    
+    def save(self):
+        from Core.FileScoreManager import gravaPontuacao
         
-        for spawner in self.__spawners:
-            spawner.active()
+        nome_jogador = input("Digite o nome para aparecer no ranking: ")
         
-        GameStateManager.instance.changeGameState(GameStateManager.GAMEPLAY)
+        current_ranking = gravaPontuacao((nome_jogador, Game.score))
+        
+        Game.window.close()
     
     def onLevelChanges(self, level):
         if(level == self):
@@ -65,9 +59,3 @@ class Level(GameObject):
         else:
             if self.__activated:
                 self.deactive()
-            
-    def findSpawnerWithName(self, name):
-        for gameObject in self.__spawners:
-            if(gameObject.getName() == name):
-                return gameObject
-        return None

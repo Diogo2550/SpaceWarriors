@@ -1,18 +1,13 @@
 nomeArquivo = 'save/save.txt'
 
-def substituiArquivoTemporario(arquivoOriginal, arquivoTemporario):
-	from os import remove, rename
-	remove(arquivoOriginal)
-	rename(arquivoTemporario, arquivoOriginal)
-	return None
-
 def gravaPontuacao(score):
+    """ Recebe uma tupla no formato (nome, score) """
     global nomeArquivo
     
     nomeTemp = nomeArquivo + "temp"
     temp = open(nomeTemp, "w+")
     
-    currentScore = obterPontuacao()
+    currentScore = __obterPontuacao()
     
     inserted = False
     for i in range(len(currentScore)):
@@ -30,10 +25,18 @@ def gravaPontuacao(score):
         	temp.write(text + '\n')
     
     temp.close()
-    substituiArquivoTemporario(nomeArquivo, nomeTemp)
-    return None
+    __substituiArquivoTemporario(nomeArquivo, nomeTemp)
+    
+    print('Jogo salvo com sucesso!')
 
-def obterPontuacao():
+def __substituiArquivoTemporario(arquivoOriginal, arquivoTemporario):
+	""" Função não deve ser exportada/importada """
+	from os import remove, rename
+	remove(arquivoOriginal)
+	rename(arquivoTemporario, arquivoOriginal)
+
+def __obterPontuacao():
+    """ Função não deve ser exportada/importada """
     global nomeArquivo
     
     currentScore = []

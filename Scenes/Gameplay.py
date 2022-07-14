@@ -32,6 +32,7 @@ def createScene(name):
     from GameObjects.Enemies.EnemyDefault import EnemyDefault
     from GameObjects.Obstacles._Obstacle import ObstacleBase
     from GameObjects.Levels.Level import Level
+    from GameObjects.Levels.EndLevel import EndLevel
     from Core.Config import get_config
     
     global obstacle_spawner
@@ -90,19 +91,24 @@ def createScene(name):
     lvl_manager = LevelManager() # Apenas instancia o singleton
     levels = config['levels']
     
-    level_spawners = [enemy_spawner]
+    level_spawners = [enemy_spawner, enemy_spawner, enemy_spawner]
     i = 0
     for key in levels:
         level_config = levels[key]
         
-        level = Level(
-            level_config['time'], 
-            level_config['name'], 
-            level_config['pool_size'], 
-            level_config['respawn_delay_base']
-        )
+        try:
+            level = Level(
+				level_config['time'], 
+				level_config['text'], 
+				level_config['pool_size'], 
+				level_config['respawn_delay_base']
+        	)
+            
+            level.addSpawner(level_spawners[i])            
+        except:
+            level = EndLevel(level_config['text'])
+        
         level.setSoundTrack(level_config['music'])
-        level.addSpawner(level_spawners[i])
         i += 1
         
         LevelManager.instance.addLevel(level)

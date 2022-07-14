@@ -9,6 +9,7 @@ class GameStateManager:
     
     GAMEPLAY = 10
     PAUSED = 11
+    WAITING = 12
     
     __currentGameState = None
    
@@ -17,11 +18,14 @@ class GameStateManager:
                 
         if(self.instance == None):
             GameStateManager.instance = self
-            SceneManager.onSceneChange(self.sceneChangeHandler)
+            SceneManager.onSceneChange(self.__sceneChangeHandler)
     
     def changeGameState(self, gameState):
         self.__currentGameState = gameState
-        self.onChangeHandler()        
+        self.onChangeHandler()
+    
+    def getGameState(self):
+        return self.__currentGameState
     
     def onChange(self, func):
         self.events.append(func)
@@ -30,5 +34,11 @@ class GameStateManager:
         for event in self.__events:
             event(self.__currentGameState)
     
-    def sceneChangeHandler(self, fromScene, toScene):
+    def __sceneChangeHandler(self, fromScene, toScene):
         self.__events = []
+    
+    @classmethod
+    def isGameState(cls, gameState):
+        if(not GameStateManager.instance):
+            x = GameStateManager()
+        return cls.instance.getGameState() == gameState

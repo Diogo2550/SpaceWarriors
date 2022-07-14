@@ -81,9 +81,9 @@ class EnemyDefault(EnemyBase):
             (self.direction_vector) * shoot.moveSpeedBase * .8
         )
         # Tiro que vai mais a direta
-        shoot.kinetics.setVelocity((self.direction_vector + Vector2(.15, 0)) * shoot.moveSpeedBase * .8)
+        shoot.kinetics.setVelocity((self.direction_vector + Vector2(.15, 0)).normalize() * shoot.moveSpeedBase * .8)
         # Tiro que vai mais a esquerda
-        shoot3.kinetics.setVelocity((self.direction_vector + Vector2(-.15, 0)) * shoot.moveSpeedBase * .8)
+        shoot3.kinetics.setVelocity((self.direction_vector + Vector2(-.15, 0)).normalize() * shoot.moveSpeedBase * .8)
         
         
         # Após todas as configurações, colocamos a bala para colidir com o Player
