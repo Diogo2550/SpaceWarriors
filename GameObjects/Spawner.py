@@ -82,7 +82,7 @@ class Spawner(GameObject):
     def __spawn(self):        
         object_to_spawn = self.__choose()
         
-        object_to_spawn.setPosition(Vector2(-1000, -1000))
+        object_to_spawn.setPosition(Vector2(-100, -100))
         
         self.addChild(object_to_spawn)
         self._dispatchEvent('onSpawn', object_to_spawn)

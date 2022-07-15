@@ -48,8 +48,10 @@ class Game:
         
     @classmethod
     def elementOnWindow(cls, element):
-        topLeft = Vector2(-element.width, -element.height)
-        bottomRight = Vector2(Game.WINDOW_WIDTH + element.width, Game.WINDOW_HEIGHT + element.height)
+        offset = 100
+        
+        topLeft = Vector2(-element.width - offset, -element.height - offset)
+        bottomRight = Vector2(Game.WINDOW_WIDTH + element.width + offset, Game.WINDOW_HEIGHT + element.height + offset)
         
         if(
             element.x < topLeft.x or\
