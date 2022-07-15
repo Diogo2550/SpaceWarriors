@@ -27,7 +27,7 @@
 			"text": "Level 03",
 			"time": 100,
 			"pool_size": 12,
-			"respawn_delay_base": 1,
+			"respawn_delay_base": 1.5,
 			"music": "assets/songs/soundtrack/fase03.mp3"
 		},
 		"end": {

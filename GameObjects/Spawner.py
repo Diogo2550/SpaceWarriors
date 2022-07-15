@@ -14,7 +14,7 @@ class Spawner(GameObject):
         self.__max_pool_difficulty = 10
         
         self.__respawn_delay = 5
-        self.__respawn_delay_min = .8
+        self.__respawn_delay_min = 1
         self.__respawn_ticks = 0
         
         self.__spawner_level = 1
