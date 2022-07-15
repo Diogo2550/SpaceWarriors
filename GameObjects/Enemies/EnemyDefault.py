@@ -44,11 +44,13 @@ class EnemyDefault(EnemyBase):
         from GameObjects.GunFire import GunFire
         from Core.Scene.SceneManager import SceneManager
         
+        
         # Irei bolar um tiro no formato \|/
         # Primeiro, crio os 3 tiros
         shoot = GunFire()
         shoot2 = GunFire()
         shoot3 = GunFire()
+        shoot.setSound('assets/songs/sfx/sfx_laser2.ogg')
         
         
         # É NECESSÁRIO adicioná-los como filha ANTES de alterar as propriedades

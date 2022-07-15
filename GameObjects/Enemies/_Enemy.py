@@ -9,6 +9,7 @@ from Core.Components.KineticsComponent import KineticsComponent
 from Core.Components.SpriteComponent import SpriteComponent
 from Core.Components.CollisionComponent import CollisionComponent
 
+
 class EnemyBase(GameObject):
     ''' Classe de gameobject que representará um inimigo genérico '''
     def __init__(self):
@@ -34,7 +35,7 @@ class EnemyBase(GameObject):
         self.move_speed = Game.SPEED_BASE
         self.kinetics.disableGravity()
         
-        self.collision.addCollisionWith(Game.player)
+        self.collision.addCollisionPerfectWith(Game.player)
 
     def _update(self):
         if(self.y > Game.WINDOW_HEIGHT + self.height):
@@ -56,7 +57,7 @@ class EnemyBase(GameObject):
         ))
         
     def _fire(self):
-        print('Atirou')
+        pass
     
     def _reload(self):
         from random import randint

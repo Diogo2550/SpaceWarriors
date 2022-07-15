@@ -97,7 +97,6 @@ class Game:
     def setPlayer(cls, player):
         ''' Seta o jogador para que o mesmo possa ser visto globalmente '''
         cls.player = player
-        print(player)
 
 # ------------------------------- LIFECYCLE -------------------------------------
     def __getDefaultConf(self):
@@ -138,10 +137,6 @@ class Game:
     def __gameLoop(self):
         while(True):
             Game.DELTA_TIME = self.window.delta_time()
-
-            # Inputs
-            if (Game.getKeyboard().key_pressed('ESC') and SceneManager.getCurrentScene().getSceneName() != 'main_menu'):
-                SceneManager.changeScene('main_menu')
 
             # Desenhando background
             try:

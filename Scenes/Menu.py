@@ -73,7 +73,7 @@ def createScene(name):
     ranking_button.setText('Ranking')
     
     # Settings button
-    settings_button = GameObjectBuilder().startBuild(SettingsButton())\
+    """ settings_button = GameObjectBuilder().startBuild(SettingsButton())\
         .setName('settings_button')\
         .setPosition(
 			Game.getWindowCenter() - 
@@ -82,7 +82,7 @@ def createScene(name):
 		)\
         .build()
     settings_button.onClick = settings
-    settings_button.setText('Opções')
+    settings_button.setText('Opções') """
         
     # Close button
     close_button = GameObjectBuilder().startBuild(CloseButton())\
@@ -90,7 +90,8 @@ def createScene(name):
         .setPosition(
 			Game.getWindowCenter() - 
 			GameObjectBuilder().instance.getObjectCenter() + 
-			Vector2(0, GameObjectBuilder.instance.getSize().y * 3 + 20 * 3)
+			#Vector2(0, GameObjectBuilder.instance.getSize().y * 3 + 20 * 3)
+			Vector2(0, GameObjectBuilder.instance.getSize().y * 2 + 20 * 2)
 		)\
         .build()
     close_button.onClick = closeGame
@@ -114,8 +115,8 @@ def createScene(name):
     scene\
         .addGameObject(start_button)\
         .addGameObject(ranking_button)\
-        .addGameObject(settings_button)\
         .addGameObject(close_button)\
         .addGameObject(game_title)\
         .addGameObject(ranking_text)
+        #.addGameObject(settings_button)\
     return scene

@@ -13,7 +13,8 @@ class Spawner(GameObject):
         self.__pool_enemies = []
         self.__max_pool_difficulty = 10
         
-        self.__respawn_delay = 3
+        self.__respawn_delay = 5
+        self.__respawn_delay_min = .8
         self.__respawn_ticks = 0
         
         self.__spawner_level = 1
@@ -30,6 +31,9 @@ class Spawner(GameObject):
     
     def setRespawnDelay(self, delay):
         self.__respawn_delay = delay
+    
+    def setRespawnDelayMin(self, delay):
+        self.__respawn_delay_min = delay
         
     def setPoolSize(self, size):
         self.__pool_size = size
@@ -78,6 +82,9 @@ class Spawner(GameObject):
             # total - 1
             # 0     - 10
             self.__spawner_level = self.__timer.timer_total // 10 - self.__timer.timer_current // 10
+            self.__respawn_delay *= .97
+            if self.__respawn_delay < self.__respawn_delay_min:
+                self.__respawn_delay = self.__respawn_delay_min            
         
     def __spawn(self):        
         object_to_spawn = self.__choose()

@@ -13,21 +13,21 @@
 			"text": "Level 01",
 			"time": 40,
 			"pool_size": 4,
-			"respawn_delay_base": 7,
+			"respawn_delay_base": 4,
 			"music": "assets/songs/soundtrack/fase01.mp3"
 		},
 		"02": {
 			"text": "Level 02",
 			"time": 60,
-			"pool_size": 6,
-			"respawn_delay_base": 4,
+			"pool_size": 8,
+			"respawn_delay_base": 2.5,
 			"music": "assets/songs/soundtrack/fase02.mp3"
 		},
 		"03": {
 			"text": "Level 03",
 			"time": 100,
-			"pool_size": 10,
-			"respawn_delay_base": 2,
+			"pool_size": 12,
+			"respawn_delay_base": 1,
 			"music": "assets/songs/soundtrack/fase03.mp3"
 		},
 		"end": {

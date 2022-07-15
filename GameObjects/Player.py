@@ -23,7 +23,7 @@ class Player(GameObject):
         #self.addComponent(CollisionComponent())
         
         self.fireReload = 0
-        self.lives = 10
+        self.lives = 15
         self.isInvulnerable = False
 
         self.__invulnerabilityTime = 4
@@ -87,6 +87,7 @@ class Player(GameObject):
                 .setPosition(self.getPosition() + Vector2(self.width / 2, 0))\
                 .build()
         
+        fire.setSound('assets/songs/sfx/sfx_laser1.ogg')
         self.addChild(fire)
         fire.addCollisionWithEnemies()
         

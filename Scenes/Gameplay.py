@@ -70,6 +70,10 @@ def createScene(name):
     # ------------------------------- SPAWNS --------------------------------
     enemy_spawner = Spawner()
     enemy_spawner.setName('enemy_spawner')
+    enemy_spawner_2 = Spawner()
+    enemy_spawner_2.setName('enemy_spawner')
+    enemy_spawner_3 = Spawner()
+    enemy_spawner_3.setName('enemy_spawner')
     
     enemy_1 = EnemyDefault()
     enemy_2 = Enemy2()
@@ -80,10 +84,17 @@ def createScene(name):
     
     enemy_spawner.add(enemy_1)
     enemy_spawner.add(enemy_2)
-    enemy_spawner.add(enemy_3)
     
+    enemy_spawner_2.add(enemy_2)
+    enemy_spawner_2.add(enemy_3)
+    
+    enemy_spawner_3.add(enemy_1)
+    enemy_spawner_3.add(enemy_2)
+    enemy_spawner_3.add(enemy_3)
     
     obstacle_spawner = Spawner()
+    obstacle_spawner.setRespawnDelay(5)
+    obstacle_spawner.setRespawnDelayMin(3)
     obstacle_spawner.setName('obstacle_spawner')
     
     meteor_1 = ObstacleBase()
@@ -101,7 +112,7 @@ def createScene(name):
     lvl_manager = LevelManager() # Apenas instancia o singleton
     levels = config['levels']
     
-    level_spawners = [enemy_spawner, enemy_spawner, enemy_spawner]
+    level_spawners = [enemy_spawner, enemy_spawner_2, enemy_spawner_3]
     i = 0
     for key in levels:
         level_config = levels[key]
