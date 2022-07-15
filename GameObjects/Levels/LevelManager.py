@@ -36,10 +36,9 @@ class LevelManager(GameObject):
     
     def startGame(self):
         from Core.Game import Game
-        print('Jogo começou')
+        
         self.__levels[0].active()
         Game.findGameObjectWithName('timer_hub').addEventListener('onTimerEnds', self.onLevelChange)
     
     def endGame(self):
-        print('Jogo terminou')
         self.__levels[-1].deactive()

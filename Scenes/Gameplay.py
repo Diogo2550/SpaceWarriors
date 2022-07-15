@@ -1,3 +1,5 @@
+#coding=utf-8
+
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 from Core.Scene.Scene import Scene
 from Core.Vector import Vector2
@@ -30,7 +32,10 @@ def createScene(name):
     from GameObjects.UI.TimerDisplay import TimerDisplay
     from GameObjects.Spawner import Spawner
     from GameObjects.Enemies.EnemyDefault import EnemyDefault
+    from GameObjects.Enemies.Enemy2 import Enemy2
+    from GameObjects.Enemies.Enemy3 import Enemy3
     from GameObjects.Obstacles._Obstacle import ObstacleBase
+    from GameObjects.Obstacles.MeteorMed import MeteorMed
     from GameObjects.Levels.Level import Level
     from GameObjects.Levels.EndLevel import EndLevel
     from Core.Config import get_config
@@ -67,10 +72,11 @@ def createScene(name):
     enemy_spawner.setName('enemy_spawner')
     
     enemy_1 = EnemyDefault()
-    enemy_2 = EnemyDefault()
+    enemy_2 = Enemy2()
     enemy_2.difficulty = 4
-    enemy_3 = EnemyDefault()
+    enemy_3 = Enemy3()
     enemy_3.difficulty = 8
+    
     
     enemy_spawner.add(enemy_1)
     enemy_spawner.add(enemy_2)
@@ -81,8 +87,12 @@ def createScene(name):
     obstacle_spawner.setName('obstacle_spawner')
     
     meteor_1 = ObstacleBase()
+    meteor_1.difficulty = 3
+    meteor_2 = MeteorMed()
+    meteor_2.difficulty = 7
     
     obstacle_spawner.add(meteor_1)
+    obstacle_spawner.add(meteor_2)
     
     
     

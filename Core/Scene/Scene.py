@@ -37,7 +37,8 @@ class Scene:
     """
     
     def removeGameObject(self, gameObject):
-        self.__gameObjects.remove(gameObject)
+        if gameObject in self.__gameObjects:
+	        self.__gameObjects.remove(gameObject)
 
     def getGameObjects(self):
         return self.__gameObjects

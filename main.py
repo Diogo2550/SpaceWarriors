@@ -8,6 +8,7 @@ from GameObjects.Player import Player
 
 from Scenes.Menu import build as bsMenu
 from Scenes.Gameplay import build as bsGameplay
+from Scenes.GameOver import build as bsGameOver
 
 game = Game()
 Game.setBackground('assets/images/backgrounds/blue_resized.jpg')
@@ -22,8 +23,9 @@ player = GameObjectBuilder\
         Game.WINDOW_HEIGHT - GameObjectBuilder.instance.height
     ))\
     .build()
-    
+
 menu = bsMenu('main_menu')
 gameplay = bsGameplay('gameplay')
+game_over = bsGameOver('game_over')
 
 game.start()

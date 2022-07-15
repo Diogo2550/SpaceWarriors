@@ -3,11 +3,16 @@ from Core.Scene.Scene import Scene
 from Core.Vector import Vector2
 from Core.Game import Game
 from Core.PPlay.sound import Sound
+from Core.GameStateManager import GameStateManager
 
 from Core.Components.SpriteComponent import SpriteComponent
 
-from GameObjects.UI._Button import UIButton
 from GameObjects.UI._Text import UIText
+from GameObjects.UI.CloseButton import CloseButton
+from GameObjects.UI.PlayButton import PlayButton
+from GameObjects.UI.RankingButton import RankingButton
+from GameObjects.UI.SettingsButton import SettingsButton
+from GameObjects.UI.RankingText import RankingText
 
 music = Sound('assets/songs/soundtrack/menu.mp3')
 
@@ -21,8 +26,8 @@ def startGame():
     
     SceneManager.changeScene('gameplay')
 
-def continueGame():
-    print('Funcionalidade não implementada!')
+def openRanking():
+    GameStateManager.instance.changeGameState(GameStateManager.RANKING_MENU)
 
 def closeGame():
     Game.window.close()
@@ -43,35 +48,32 @@ def onDeactiveScene():
 def addChangeEvent(scene):
     scene.onActiveScene = onActiveScene
     scene.onDeactiveScene = onDeactiveScene
-
+        
 def createScene(name):
     scene = Scene(name)
     
     # Start button
-    start_button = GameObjectBuilder().startBuild(UIButton())\
-        .addComponent(SpriteComponent('assets/images/sprites/ui/button_green.png'))\
+    start_button = GameObjectBuilder().startBuild(PlayButton())\
         .setName('start_button')\
         .setPosition(Game.getWindowCenter() - GameObjectBuilder().instance.getObjectCenter())\
         .build()
     start_button.onClick = startGame
     start_button.setText('Novo Jogo')
     
-    # Continue button
-    continue_button = GameObjectBuilder().startBuild(UIButton())\
-        .addComponent(SpriteComponent('assets/images/sprites/ui/button_blue.png'))\
-        .setName('continue_button')\
+    # Ranking button
+    ranking_button = GameObjectBuilder().startBuild(RankingButton())\
+        .setName('ranking_button')\
         .setPosition(
 			Game.getWindowCenter() - 
 			GameObjectBuilder().instance.getObjectCenter() + 
 			Vector2(0, GameObjectBuilder.instance.getSize().y + 20)
 		)\
         .build()
-    continue_button.onClick = continueGame
-    continue_button.setText('Continuar')
+    ranking_button.onClick = openRanking
+    ranking_button.setText('Ranking')
     
     # Settings button
-    settings_button = GameObjectBuilder().startBuild(UIButton())\
-        .addComponent(SpriteComponent('assets/images/sprites/ui/button_yellow.png'))\
+    settings_button = GameObjectBuilder().startBuild(SettingsButton())\
         .setName('settings_button')\
         .setPosition(
 			Game.getWindowCenter() - 
@@ -83,8 +85,7 @@ def createScene(name):
     settings_button.setText('Opções')
         
     # Close button
-    close_button = GameObjectBuilder().startBuild(UIButton())\
-        .addComponent(SpriteComponent('assets/images/sprites/ui/button_red.png'))\
+    close_button = GameObjectBuilder().startBuild(CloseButton())\
         .setName('close_button')\
         .setPosition(
 			Game.getWindowCenter() - 
@@ -94,6 +95,9 @@ def createScene(name):
         .build()
     close_button.onClick = closeGame
     close_button.setText('Sair')
+    
+    # Texto do ranking
+    ranking_text = RankingText()
     
     # Game Title
     title = Game.WINDOW_TITLE
@@ -109,8 +113,9 @@ def createScene(name):
     # Adição dos objetos na cena
     scene\
         .addGameObject(start_button)\
-        .addGameObject(continue_button)\
+        .addGameObject(ranking_button)\
         .addGameObject(settings_button)\
         .addGameObject(close_button)\
-        .addGameObject(game_title)
+        .addGameObject(game_title)\
+        .addGameObject(ranking_text)
     return scene

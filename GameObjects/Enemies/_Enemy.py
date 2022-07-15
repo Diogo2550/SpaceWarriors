@@ -14,7 +14,7 @@ class EnemyBase(GameObject):
     def __init__(self):
         super().__init__()
         self.difficulty = 1 # Dificuldade do inimigo. Usado para definir sua frequência de spawn
-        self.move_speed = None # Setadp durante o Start
+        self.move_speed = None # Setado durante o Start
         self.score_base = 100
         self.lives = 1
         self.direction_vector = None
@@ -86,7 +86,7 @@ class EnemyBase(GameObject):
         self.transform.rotate(angle)
         
     def _followPlayer(self):                        
-        self.kinetics.setVelocity(self.direction_vector * self.move_speed)
+        self.kinetics.setVelocity(self.direction_vector * self.move_speed / 2)
         
     def _tookDamage(self):
         Game.score += self.score_base

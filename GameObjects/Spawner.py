@@ -11,7 +11,7 @@ class Spawner(GameObject):
         super().__init__()
         self.__pool_size = 3
         self.__pool_enemies = []
-        self.__max_pool_difficulty = 0
+        self.__max_pool_difficulty = 10
         
         self.__respawn_delay = 3
         self.__respawn_ticks = 0

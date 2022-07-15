@@ -3,8 +3,10 @@
 from Core.GameObject import GameObject
 from Core.Game import Game
 from Core.Vector import Vector2
+from Core.GameStateManager import GameStateManager
 
 from Core.Components.TextComponent import TextComponent
+
 
 from GameObjects.UI._Text import UIText
 
@@ -20,4 +22,3 @@ class ScoreDisplay(UIText):
         self.setText(f'Score: {Game.score}')
         self.setPosition(Vector2((Game.WINDOW_WIDTH - len(self.text_string) * self.getFontSize()) - 16, 16))
         self.text.setText(self.text_string)
-        

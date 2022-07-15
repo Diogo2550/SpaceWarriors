@@ -4,6 +4,7 @@ from Core.Components.SpriteComponent import SpriteComponent
 from Core.GameObject import *
 from Core.Vector import Vector2
 from Core.Game import *
+from Core.GameStateManager import GameStateManager
 
 from GameObjects.UI._Button import UIButton;
 
@@ -11,20 +12,22 @@ from GameObjects.UI._Button import UIButton;
 class RankingButton(UIButton):
     def __init__(self):
         super().__init__()
+        
+        rankingSprite = SpriteComponent('assets/images/sprites/ui/button_blue.png')
+        self.addComponent(rankingSprite)
 
     def _awake(self):
         super()._awake()
-        
-        rankingSprite = SpriteComponent('assets/images/ui/menu/ranking_button.png')
-        self.addComponent(rankingSprite)
 
     def _start(self):
-        self.setPosition(Game.getWindowCenter() + Vector2(self.width, 0) * 1)
+        super()._start()
+        GameStateManager.instance.onChange(self.gameStateChangesHandler)
 
     def _update(self):
         pass
     
-    def onClick(self):
-        Game.findGameObjectWithName('settings_menu').enabled = False
-        Game.findGameObjectWithName('main_menu').enabled = False
-        Game.findGameObjectWithName('ranking_menu').enabled = True
+    def gameStateChangesHandler(self, gameState):
+        if(gameState == GameStateManager.MAIN_MENU):
+            self.enable()
+        else:
+            self.disable()

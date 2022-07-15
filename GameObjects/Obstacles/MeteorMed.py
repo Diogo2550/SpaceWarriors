@@ -11,7 +11,7 @@ from Core.Components.CollisionComponent import CollisionComponent
 
 from random import randint
 
-class ObstacleBase(GameObject):
+class MeteorMed(GameObject):
     ''' Classe de gameobject que representará um inimigo genérico '''
     def __init__(self):
         super().__init__()
@@ -21,7 +21,7 @@ class ObstacleBase(GameObject):
 
     def _awake(self):
         self.addComponent(KineticsComponent())
-        self.addComponent(SpriteComponent('assets/images/sprites/meteors/meteor_brown_big1.png'))
+        self.addComponent(SpriteComponent('assets/images/sprites/meteors/meteor_brown_med1.png'))
         self.addComponent(CollisionComponent())
 
     def _start(self):
@@ -29,7 +29,7 @@ class ObstacleBase(GameObject):
         self.sprite = self.getComponent(SpriteComponent)
         self.collision = self.getComponent(CollisionComponent)
         
-        self.move_speed = Game.SPEED_BASE / 2.7
+        self.move_speed = Game.SPEED_BASE / 1.6
         self.kinetics.disableGravity()
         
         self.collision.addCollisionWith(Game.player)

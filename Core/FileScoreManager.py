@@ -7,7 +7,7 @@ def gravaPontuacao(score):
     nomeTemp = nomeArquivo + "temp"
     temp = open(nomeTemp, "w+")
     
-    currentScore = __obterPontuacao()
+    currentScore = obterPontuacao()
     
     inserted = False
     for i in range(len(currentScore)):
@@ -35,8 +35,7 @@ def __substituiArquivoTemporario(arquivoOriginal, arquivoTemporario):
 	remove(arquivoOriginal)
 	rename(arquivoTemporario, arquivoOriginal)
 
-def __obterPontuacao():
-    """ Função não deve ser exportada/importada """
+def obterPontuacao():
     global nomeArquivo
     
     currentScore = []

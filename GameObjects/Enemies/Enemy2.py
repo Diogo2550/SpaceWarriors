@@ -4,24 +4,33 @@ from GameObjects.Enemies._Enemy import EnemyBase
 from Core.Game import Game
 from Core.Vector import Vector2
 
-class EnemyDefault(EnemyBase):
+from Core.Components.KineticsComponent import KineticsComponent
+from Core.Components.SpriteComponent import SpriteComponent
+from Core.Components.CollisionComponent import CollisionComponent
+
+from random import randint
+
+class Enemy2(EnemyBase):
     # Construtor. Use APENAS para declarar variáveis
     # Comportamentos iniciais devem ser adicionados no _start
     def __init__(self):
         super().__init__()
         self.lives = 1
         self.score_base = 100
-        self._fire_delay = 3
+        self._fire_delay = 2
     
         self._reload()
     
     # Executa no momento em que o inimigo é instanciado/criado
     def _awake(self):
-        super()._awake()
+        self.addComponent(KineticsComponent())
+        self.addComponent(SpriteComponent('assets/images/sprites/enemies/enemy_green_2.png'))
+        self.addComponent(CollisionComponent())
         
     # Executa no momento em que o inimigo é habilitado em cena
     def _start(self):
         super()._start()
+        self.move_speed = Game.SPEED_BASE * .8
         # Função do inimigo usado para definir uma posição de spawn.
         # O posicionamento é aleatório e você pode adicionar um fixo, caso queira
         self.configure_spawn()
@@ -40,28 +49,43 @@ class EnemyDefault(EnemyBase):
     def _afterUpdated(self):
         super()._afterUpdated()
     
+    def configure_spawn(self):
+        spawn_offset = 30
+        
+        vertical_horizontal = randint(0, 1)
+        if(vertical_horizontal == 1): # vertical
+            top_bottom = -1 * (self.width + spawn_offset)
+            
+            self.setPosition(Vector2(
+            	randint(spawn_offset * -1, Game.WINDOW_WIDTH + spawn_offset),
+            	top_bottom
+        	))
+        else: # Horizontal
+            left_right = randint(0, 1)
+            left_right = Game.WINDOW_WIDTH * left_right
+            left_right = -1 * (self.width + spawn_offset) if left_right == 0 else left_right + spawn_offset
+            
+            self.setPosition(Vector2(
+            	left_right,
+            	randint(spawn_offset * -1, Game.WINDOW_HEIGHT / 2 + spawn_offset)
+        	))
+    
     def _fire(self):
         from GameObjects.GunFire import GunFire
         from Core.Scene.SceneManager import SceneManager
         
-        # Irei bolar um tiro no formato \|/
+        # Irei bolar um tiro no formato |
         # Primeiro, crio os 3 tiros
         shoot = GunFire()
-        shoot2 = GunFire()
-        shoot3 = GunFire()
         
         
         # É NECESSÁRIO adicioná-los como filha ANTES de alterar as propriedades
         SceneManager.addGameObjectToCurrentScene(shoot)
-        SceneManager.addGameObjectToCurrentScene(shoot2)
-        SceneManager.addGameObjectToCurrentScene(shoot3)
         
         
         # Fazemos a bala "olhar" para a direção da nave
         angleOffset = 180 # Apenas porque a imagem da bala está invertida
         shoot.transform.vectorRotate(self.direction_vector, angleOffset)
-        shoot2.transform.vectorRotate(self.direction_vector, angleOffset)
-        shoot3.transform.vectorRotate(self.direction_vector, angleOffset)
         
         
         # Colocamos elas para nascerem em frente a nave
@@ -69,24 +93,11 @@ class EnemyDefault(EnemyBase):
             # Pegamos a posição central do inimigo e somamos com "a direção que olha com metade de seu próprio tamanho"
 			self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3))	
 		)
-        shoot2.setPosition(self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3)))
-        shoot3.setPosition(self.getPosition() + self.getObjectCenter() + (self.direction_vector * (self.width / 2.3)))
         
         
         # Configuro agora a movimentação dos tiros
-        # Tiro que anda em linha reta. O cálculo da rota dos tiros é feito completamente por cálculo vetorial :)
-        shoot2.kinetics.setVelocity(
-            # Pego o vetor direção que a nave está olhando e multiplico pela
-            # velocidade que quero adicionar ao tiro
-            (self.direction_vector) * shoot.moveSpeedBase * .8
-        )
-        # Tiro que vai mais a direta
-        shoot.kinetics.setVelocity((self.direction_vector + Vector2(.15, 0)).normalize() * shoot.moveSpeedBase * .8)
-        # Tiro que vai mais a esquerda
-        shoot3.kinetics.setVelocity((self.direction_vector + Vector2(-.15, 0)).normalize() * shoot.moveSpeedBase * .8)
+        shoot.kinetics.setVelocity(self.direction_vector * shoot.moveSpeedBase * 1.2)
         
         
         # Após todas as configurações, colocamos a bala para colidir com o Player
         shoot.addCollisionWithPlayer()
-        shoot2.addCollisionWithPlayer()
-        shoot3.addCollisionWithPlayer()

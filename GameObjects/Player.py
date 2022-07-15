@@ -23,7 +23,7 @@ class Player(GameObject):
         #self.addComponent(CollisionComponent())
         
         self.fireReload = 0
-        self.lives = 3
+        self.lives = 10
         self.isInvulnerable = False
 
         self.__invulnerabilityTime = 4

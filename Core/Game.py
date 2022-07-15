@@ -82,13 +82,8 @@ class Game:
     def gameOver(cls):
         from .FileScoreManager import gravaPontuacao
         
-        SceneManager.changeScene('main_menu')
-
-        playerName = input("Digite o seu nome: ")        
-        gravaPontuacao((playerName, Game.score))
+        SceneManager.changeScene('game_over')
         
-        print('Jogo salvo com sucesso!')
-        cls.window.close()
 
 # ------------------------------- ADIÇÃO DE ELEMENTOS -------------------------------------
     @classmethod
@@ -143,7 +138,7 @@ class Game:
             Game.DELTA_TIME = self.window.delta_time()
 
             # Inputs
-            if (Game.getKeyboard().key_pressed('ESC')):
+            if (Game.getKeyboard().key_pressed('ESC') and SceneManager.getCurrentScene().getSceneName() != 'main_menu'):
                 SceneManager.changeScene('main_menu')
 
             # Desenhando background
